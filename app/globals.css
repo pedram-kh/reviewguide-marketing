@@ -82,22 +82,16 @@ body {
 /* Amendment (ticket 4.1): reduced-motion + <768px fallback — the SVG filter is four cascaded
    feGaussianBlur passes (expensive on low-power/mobile GPUs) and the two orbs are a nontrivial
    animation; both get swapped for a cheap static effect instead of just disabling the glow.
-   The `::before` is also dropped here: it duplicates the heading text via `content: attr()` and
-   absolutely positions it over the real text for the crisp-text fade-in, which only lines up
-   correctly when both copies wrap identically — on narrow viewports the real text wraps to 3
-   lines while the absolutely-positioned duplicate doesn't, producing visibly overlapping
-   doubled text (caught via a mobile-viewport screenshot, not just code review). Dropping it
-   leaves the real (always-visible) text with the text-shadow glow applied directly — simpler
-   and cheaper, which is the point of a fallback anyway. */
+   (The heading text used to be duplicated via a `::before` + `content: attr()` overlay for a
+   "crisp text fades in over the blur" effect; that's gone now — it broke under text wrapping at
+   ordinary desktop widths and under Chrome's page-translate feature, see the component's doc
+   comment — so `.hero-glow` now styles the one real text node directly at every width.) */
 @media (prefers-reduced-motion: reduce), (max-width: 767px) {
   .hero-glow {
     filter: none;
     text-shadow:
       0 0 0.3em rgba(255, 226, 190, 0.9),
       0 0 0.9em rgba(255, 154, 84, 0.55);
-  }
-  .hero-glow::before {
-    content: none;
   }
 
   /* Caught via mobile Lighthouse run, not just eyeballing it: a 48px CSS blur repainted every

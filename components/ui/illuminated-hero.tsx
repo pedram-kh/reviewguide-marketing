@@ -10,16 +10,28 @@ const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.reviewguide.eu";
  * light orbs), but with:
  *  - Polish copy in place of the placeholder "Introducing / Illuminated Glow Text." lines
  *  - a real, non-decorative <h1> for a11y/SEO (the glow text block itself is aria-hidden,
- *    since it's built from split spans/pseudo-elements purely for the visual effect)
+ *    since it's built from split spans purely for the visual effect)
  *  - a CTA pair (primary: app signup; secondary: scroll to How it works)
  *  - a `prefers-reduced-motion` + <768px fallback: the SVG filter glow (`.hero-glow`) is
  *    expensive (four cascaded feGaussianBlur passes) and the two light orbs are a nontrivial
  *    animation — both are swapped for a static text-shadow / final-frame state instead of
  *    disabled outright, so the hero still reads as "illuminated" rather than going flat.
  *
- * Bug fixed while integrating (disclosed): the reference's bottom orb (`.hero-bg-orb--bottom`)
- * shared the top orb's `translate-[0_-70%]` starting position instead of its own keyframe's
- * `0 70%` start, which would have made both orbs animate from the same spot.
+ * Bugs fixed while integrating (disclosed):
+ *  1. The reference's bottom orb (`.hero-bg-orb--bottom`) shared the top orb's
+ *     `translate-[0_-70%]` starting position instead of its own keyframe's `0 70%` start, which
+ *     would have made both orbs animate from the same spot.
+ *  2. The reference rendered the glow text TWICE: the real text (with the SVG filter applied
+ *     directly) plus a `::before` pseudo-element duplicating it via `content: attr(data-text)`,
+ *     absolutely positioned on top for a "crisp text fades in over the blur" effect. That only
+ *     lines up when both copies wrap identically. It doesn't: the Stakeholder found this live,
+ *     at a plain desktop window width (not just mobile) once "Każda opinia dostaje odpowiedź."
+ *     wrapped to 2 lines, and far worse under Chrome's page-translate feature — translate
+ *     rewrites the *visible* text node but never touches the `data-text` attribute, so the
+ *     glow duplicate kept showing stale Polish underneath newly-translated English, overlapping
+ *     both effects at once. Fixed by dropping the duplicate entirely: the gradient/clip-text
+ *     styling and the fade-in animation are now on the one real text node, so there's only ever
+ *     one copy to wrap or translate.
  */
 export function IlluminatedHero() {
   return (
@@ -45,11 +57,10 @@ export function IlluminatedHero() {
           <br />
           <span
             className={cn(
-              "hero-glow relative inline-block",
-              "before:absolute before:animate-[onloadopacity_1s_ease-out_forwards] before:opacity-0 before:content-[attr(data-text)]",
-              "before:bg-[linear-gradient(0deg,#dfe5ee_0%,#fffaf6_50%)] before:bg-clip-text before:text-[#fffaf6]",
+              "hero-glow relative inline-block opacity-0",
+              "bg-[linear-gradient(0deg,#dfe5ee_0%,#fffaf6_50%)] bg-clip-text text-transparent",
+              "animate-[onloadopacity_1s_ease-out_forwards]",
             )}
-            data-text="Każda opinia dostaje odpowiedź."
           >
             Każda opinia dostaje odpowiedź.
           </span>
