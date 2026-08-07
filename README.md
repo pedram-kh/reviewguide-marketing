@@ -55,14 +55,35 @@ npx serve out   # preview the static export locally
 ## Deployed (live)
 
 Done as of 2026-08-07: Netlify site `reviewguide-marketing` (id `7cd0b502-1332-4ee4-a887-18c29d168f35`,
-account `sideprojects`), linked to this GitHub repo for continuous deployment (every push to `main`
-builds + deploys to production — verified live, not just configured, by triggering and watching an
-actual repo-sourced build reach `ready`/`production`). `NEXT_PUBLIC_APP_URL` is set to the
-`reviewguide-app` Netlify URL (`https://dynamic-puppy-631956.netlify.app`) until `reviewguide.eu`
-gets its own app subdomain.
+account `sideprojects`), pointed at this GitHub repo (`build_settings.repo_url` set via the Netlify
+API) with the reviewguide-app-matching build config (`npm run build` → `out`). `NEXT_PUBLIC_APP_URL`
+is set to the `reviewguide-app` Netlify URL (`https://dynamic-puppy-631956.netlify.app`) until
+`reviewguide.eu` gets its own app subdomain.
 
 - Live URL: **https://reviewguide-marketing.netlify.app**
 - Admin: https://app.netlify.com/projects/reviewguide-marketing
+
+**Push-to-deploy is NOT yet live — one Stakeholder action needed.** Triggering a build via the
+Netlify API works (proven: an on-demand repo-sourced build reached `ready`/`production` and the
+live site serves it), so the repo link itself is valid. But two subsequent pushes to `main` did
+*not* auto-trigger a build — compared against `reviewguide-app`'s site record, that one has a set
+of `github_app_commit_status`/`github_app_checks` hook rows that this new site is missing, meaning
+Netlify's own PATCH-the-repo-field API sets enough metadata for an on-demand build but doesn't run
+the full "connect repo" flow (deploy-key exchange + GitHub webhook subscription) that the Netlify
+UI/`netlify init` normally performs. The likely root cause: the existing "Netlify" GitHub App
+installation on `pedram-kh` is scoped to specific repos (confirmed indirectly — `gh api -X PUT
+/user/installations/151598263/repositories/{repo_id}` was attempted and rejected with "You do not
+have permission to modify this app", which needs a browser-authorized action, not a plain token) and
+`reviewguide-marketing` was never added to it.
+
+**Fix (one-time, ~1 minute):** go to
+[github.com/settings/installations](https://github.com/settings/installations) → **Netlify** →
+**Configure** → under "Repository access", add `pedram-kh/reviewguide-marketing` (or switch to
+"All repositories" to cover future repos too) → **Save**. After that, a normal `git push` to `main`
+should auto-deploy like it already does for `reviewguide-app`; no Netlify-side change needed once
+the GitHub permission is granted. Until then, deploy with `netlify api createSiteBuild --data
+'{"site_id":"7cd0b502-1332-4ee4-a887-18c29d168f35"}'` (or `netlify deploy --build --prod` from a
+linked local checkout) after each push.
 
 ## Connecting the `reviewguide.eu` domain (Stakeholder action — GoDaddy only)
 
