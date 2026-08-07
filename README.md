@@ -52,32 +52,41 @@ npm run build   # outputs to ./out
 npx serve out   # preview the static export locally
 ```
 
-## Deploying to Netlify
+## Deployed (live)
 
-1. Create a Netlify site linked to this GitHub repo (`pedram-kh/reviewguide-marketing`).
-2. Site settings → Environment variables → add `NEXT_PUBLIC_APP_URL` (the live `reviewguide-app`
-   URL, e.g. `https://dynamic-puppy-631956.netlify.app` until `reviewguide.eu`'s own app subdomain
-   exists).
-3. Build command `npm run build`, publish directory `out` (see `netlify.toml` — no
-   `@netlify/plugin-nextjs` needed here, unlike `reviewguide-app`, since there's no SSR/middleware
-   surface to run at the edge).
-4. Deploy. The site should be reachable at the Netlify-assigned `*.netlify.app` URL immediately.
+Done as of 2026-08-07: Netlify site `reviewguide-marketing` (id `7cd0b502-1332-4ee4-a887-18c29d168f35`,
+account `sideprojects`), linked to this GitHub repo for continuous deployment (every push to `main`
+builds + deploys to production — verified live, not just configured, by triggering and watching an
+actual repo-sourced build reach `ready`/`production`). `NEXT_PUBLIC_APP_URL` is set to the
+`reviewguide-app` Netlify URL (`https://dynamic-puppy-631956.netlify.app`) until `reviewguide.eu`
+gets its own app subdomain.
 
-## Connecting the `reviewguide.eu` domain (Stakeholder action)
+- Live URL: **https://reviewguide-marketing.netlify.app**
+- Admin: https://app.netlify.com/projects/reviewguide-marketing
 
-The domain is registered in GoDaddy. To point it at this Netlify site:
+## Connecting the `reviewguide.eu` domain (Stakeholder action — GoDaddy only)
 
-1. In the Netlify site dashboard: **Domain settings → Add a domain** → enter `reviewguide.eu`.
-2. Netlify will show the exact DNS records to add (an apex `A`/`ALIAS` record for `reviewguide.eu`
-   itself, and usually a `CNAME` for `www`). **Use the values Netlify shows you at the time**, not
-   ones copied from an old guide — Netlify's load-balancer IPs can change.
-3. In GoDaddy: **DNS Management** for `reviewguide.eu` → add/edit those records to match exactly
-   what Netlify displayed. Remove any existing GoDaddy "parking page" `A`/`CNAME` records for the
-   same host first, or the new ones will conflict.
-4. Wait for DNS propagation (usually minutes, can take longer with GoDaddy's default TTLs) —
-   Netlify's domain settings page shows a green check once it verifies. Netlify auto-provisions a
-   free SSL certificate once DNS resolves correctly.
-5. Once `reviewguide.eu` is live, update `NEXT_PUBLIC_APP_URL` if the app also moves to a
+The domain is already registered on the Netlify site (`custom_domain: reviewguide.eu`,
+`domain_aliases: ["www.reviewguide.eu"]`) — the only remaining step is pointing GoDaddy's DNS at
+Netlify. GoDaddy doesn't support ALIAS/ANAME/flattened-CNAME records on an apex domain, so use the
+A-record fallback:
+
+| Type | Host/Name | Value | Notes |
+|---|---|---|---|
+| A | `@` (or blank, per GoDaddy's UI) | `75.2.60.5` | Netlify's standard-edge load balancer IP. Remove GoDaddy's default parking-page `A`/`CNAME`/forwarding records for `@` first — multiple `A` records on the apex will break certificate issuance. |
+| CNAME | `www` | `reviewguide-marketing.netlify.app` | |
+
+Also delete any leftover `AAAA` (IPv6) records on `@` — Netlify's load balancer doesn't support
+IPv6, and a stray `AAAA` will fail cert provisioning even with the `A` record correct.
+
+Steps:
+1. GoDaddy → `reviewguide.eu` → **DNS Management** → add/edit the two records above.
+2. Wait for propagation (GoDaddy's default TTLs can take longer than the DNS-standard minutes;
+   check with `dig reviewguide.eu` / `dig www.reviewguide.eu` or dnschecker.org).
+3. Netlify auto-detects the correct DNS and auto-provisions a free SSL certificate — no action
+   needed on the Netlify side once DNS resolves correctly. Check
+   https://app.netlify.com/projects/reviewguide-marketing/domain-management for a green check.
+4. Once `reviewguide.eu` is live, update `NEXT_PUBLIC_APP_URL` if the app also moves to a
    `reviewguide.eu` subdomain (e.g. `app.reviewguide.eu`), and redeploy.
 
 Note: `mail.reviewguide.eu` (Postmark's sending domain, ticket 4.2) uses separate DNS records
