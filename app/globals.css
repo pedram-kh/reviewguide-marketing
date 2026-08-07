@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #050505;
+  --foreground: #f4f1ea;
 }
 
 @theme inline {
@@ -12,15 +12,108 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* --- Illuminated hero (ticket 4.1) --- */
+
+@keyframes onloadopacity {
+  24% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes onloadbgt {
+  0% {
+    translate: 0 -70%;
+    opacity: 0.3;
+  }
+  100% {
+    translate: 0 -64%;
+    opacity: 0.8;
+  }
+}
+
+@keyframes onloadbgb {
+  0% {
+    translate: 0 70%;
+    opacity: 0.3;
+  }
+  100% {
+    translate: 0 64%;
+    opacity: 0.8;
+  }
+}
+
+/* The reference component only supplied Tailwind utility classes plus these three bare
+   class names (`.bg`, `.shadow-bgt`, `.shadow-bgb`) with no definitions — without an actual
+   background they render as invisible rounded rectangles. Renamed to `.hero-*` (avoids
+   colliding with a bare `.bg`/utility-like class name elsewhere) and given the warm two-source
+   gradient the "illuminated" look implies. */
+.hero-bg {
+  background: radial-gradient(60% 60% at 50% 32%, rgba(255, 200, 140, 0.14), transparent 70%);
+}
+
+.hero-bg-orb {
+  filter: blur(48px);
+}
+
+.hero-bg-orb--top {
+  background: radial-gradient(closest-side, rgba(255, 228, 196, 0.95), rgba(255, 172, 110, 0.35) 55%, transparent 75%);
+}
+
+.hero-bg-orb--bottom {
+  background: radial-gradient(closest-side, rgba(255, 150, 90, 0.85), rgba(196, 84, 40, 0.3) 55%, transparent 75%);
+}
+
+.hero-glow {
+  filter: url(#glow-4);
+}
+
+/* Amendment (ticket 4.1): reduced-motion + <768px fallback — the SVG filter is four cascaded
+   feGaussianBlur passes (expensive on low-power/mobile GPUs) and the two orbs are a nontrivial
+   animation; both get swapped for a cheap static effect instead of just disabling the glow.
+   The `::before` is also dropped here: it duplicates the heading text via `content: attr()` and
+   absolutely positions it over the real text for the crisp-text fade-in, which only lines up
+   correctly when both copies wrap identically — on narrow viewports the real text wraps to 3
+   lines while the absolutely-positioned duplicate doesn't, producing visibly overlapping
+   doubled text (caught via a mobile-viewport screenshot, not just code review). Dropping it
+   leaves the real (always-visible) text with the text-shadow glow applied directly — simpler
+   and cheaper, which is the point of a fallback anyway. */
+@media (prefers-reduced-motion: reduce), (max-width: 767px) {
+  .hero-glow {
+    filter: none;
+    text-shadow:
+      0 0 0.3em rgba(255, 226, 190, 0.9),
+      0 0 0.9em rgba(255, 154, 84, 0.55);
+  }
+  .hero-glow::before {
+    content: none;
+  }
+
+  /* Caught via mobile Lighthouse run, not just eyeballing it: a 48px CSS blur repainted every
+     animation frame over two full-height divs was the single biggest performance-category
+     deduction on mobile (Lighthouse mobile throttles CPU 4x; desktop scored 99, mobile 84 with
+     this still animating). Same fallback spirit — jump straight to the animation's end state
+     and shrink the blur instead of paying for a repainted heavy blur 60x/sec. */
+  .hero-bg-orb {
+    animation: none !important;
+    opacity: 0.8 !important;
+    filter: blur(22px);
+  }
+  .hero-bg-orb--top {
+    translate: 0 -64% !important;
+  }
+  .hero-bg-orb--bottom {
+    translate: 0 64% !important;
+  }
 }

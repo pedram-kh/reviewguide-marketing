@@ -1,0 +1,7 @@
+[build]
+  command = "npm run build"
+  publish = "out"
+
+# Pure static export (next.config.ts: output = "export") — no @netlify/plugin-nextjs needed,
+# unlike reviewguide-app, since there's no SSR/route-handler/middleware surface to run at the
+# edge. Netlify serves `out/` directly and auto-uses `out/404.html` for unmatched paths.
