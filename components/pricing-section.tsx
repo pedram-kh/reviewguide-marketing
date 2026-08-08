@@ -5,7 +5,7 @@ import { DARK_GLASS_CARD, SECTION, SECTION_EYEBROW, SECTION_HEADING } from "@/li
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.reviewguide.eu";
 
 const FEATURES = [
-  "Codzienne wykrywanie nowych opinii Google",
+  "Wykrywanie nowych opinii Google co 2 godziny",
   "Odpowiedzi w języku opinii (PL i EN)",
   "Wgląd i akceptacja przed wysyłką",
   "Wrażliwe zgłoszenia oznaczone do ręcznej weryfikacji",
