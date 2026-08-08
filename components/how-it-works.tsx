@@ -4,7 +4,7 @@ const STEPS = [
   {
     number: "01",
     title: "Wykrywamy",
-    body: "ReviewGuide codziennie sprawdza opinie Twojej restauracji na Google i wyłapuje te, które wymagają odpowiedzi — zwłaszcza te z niską oceną i bez reakcji właściciela.",
+    body: "ReviewGuide sprawdza opinie Twojej restauracji na Google co 2 godziny i wyłapuje te, które wymagają odpowiedzi — zwłaszcza te z niską oceną i bez reakcji właściciela.",
   },
   {
     number: "02",

@@ -69,11 +69,11 @@ export function IlluminatedHero() {
         </div>
 
         <p className="max-w-[28em] bg-gradient-to-t from-[#86868b] to-[#bdc2c9] bg-clip-text text-center font-semibold text-transparent">
-          ReviewGuide codziennie sprawdza opinie Twojej restauracji na Google i przygotowuje{" "}
+          ReviewGuide sprawdza opinie Twojej restauracji na Google co 2 godziny i{" "}
           <span className="relative inline-block font-black text-[#e7dfd6]">
-            gotową odpowiedź w kilka sekund
+            w ciągu maksymalnie 2 godzin
           </span>{" "}
-          — spokojną, konkretną i bez szablonowego tonu.
+          przygotowuje gotową odpowiedź — spokojną, konkretną i bez szablonowego tonu.
         </p>
 
         <div className="flex flex-col items-center gap-3 text-base sm:flex-row">
