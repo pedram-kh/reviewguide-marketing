@@ -26,9 +26,11 @@ export function HowItWorks() {
 
       <div className="mt-10 grid gap-5 sm:grid-cols-3">
         {STEPS.map((step) => (
-          <div key={step.number} className={`${DARK_GLASS_CARD} p-6`}>
-            <p className="font-mono text-sm text-amber-200/70">{step.number}</p>
-            <h3 className="mt-3 text-lg font-semibold text-white">{step.title}</h3>
+          <div key={step.number} className={`${DARK_GLASS_CARD} step-card overflow-hidden p-6`}>
+            <p className="step-card-number font-mono text-4xl font-bold" aria-hidden="true">
+              {step.number}
+            </p>
+            <h3 className="mt-1 text-lg font-semibold text-white">{step.title}</h3>
             <p className="mt-2 text-sm leading-relaxed text-white/60">{step.body}</p>
           </div>
         ))}

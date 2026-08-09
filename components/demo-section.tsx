@@ -44,13 +44,25 @@ export function DemoSection() {
               </span>
             </div>
 
-            <div className="rounded-xl border border-white/10 bg-black/30 p-4">
-              <p className="text-xs font-medium tracking-wide text-white/40 uppercase">Opinia</p>
-              <p className="mt-2 text-sm leading-relaxed text-white/80">{pair.review}</p>
+            <div className="rounded-xl border border-white/[0.06] bg-black/40 p-4 saturate-[0.85]">
+              <p className="text-xs font-medium tracking-wide text-white/35 uppercase">Opinia</p>
+              <p className="mt-2 text-sm leading-relaxed text-white/60">{pair.review}</p>
             </div>
 
-            <div className="rounded-xl border border-amber-200/15 bg-amber-100/[0.04] p-4">
-              <p className="text-xs font-medium tracking-wide text-amber-200/70 uppercase">
+            <div className="demo-connector" aria-hidden="true">
+              <svg width="16" height="20" viewBox="0 0 16 20" fill="none">
+                <path
+                  d="M8 0V14M8 14L2 8M8 14L14 8"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+
+            <div className="demo-response-card rounded-xl border border-amber-200/20 border-l-2 border-l-amber-400/70 bg-amber-100/[0.05] p-4">
+              <p className="text-xs font-semibold tracking-wide text-amber-300 uppercase">
                 Odpowiedź ReviewGuide
               </p>
               <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-white/90">

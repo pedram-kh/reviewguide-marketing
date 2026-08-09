@@ -3,7 +3,7 @@ import { DARK_GLASS_CARD, SECTION, SECTION_EYEBROW, SECTION_HEADING } from "@/li
 const FAQS = [
   {
     q: "Czy muszę podawać dane karty, żeby zacząć?",
-    a: "Tak — kartę podajesz przy rejestracji, ale nic nie płacisz przez 14 dni. Pierwsza płatność (129 zł) pojawia się dopiero po zakończeniu okresu próbnego. Możesz anulować w dowolnym momencie jednym kliknięciem w panelu, zanim do niej dojdzie.",
+    a: "Tak — podajesz kartę przy starcie, ale przez 14 dni nie pobieramy żadnej opłaty. Możesz anulować w każdej chwili w panelu, zanim naliczy się pierwsza płatność.",
   },
   {
     q: "Czy odpowiedzi są publikowane automatycznie?",

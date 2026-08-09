@@ -64,7 +64,7 @@ export function IlluminatedHero() {
             Każda opinia dostaje odpowiedź.
           </span>
           <br />
-          Zanim zdążysz się zdenerwować.
+          Zanim zdążysz ją przeczytać.
         </div>
 
         <p className="max-w-[28em] bg-gradient-to-t from-[#86868b] to-[#bdc2c9] bg-clip-text text-center font-semibold text-transparent">

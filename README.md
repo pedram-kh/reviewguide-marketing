@@ -18,9 +18,9 @@ sprint status; this README only covers running/deploying *this* site.
   - **Zobacz sam** — 2 real review→response pairs from
     `docs/review/generation_batch_2026-08-05_v1.2.md` (restaurant name *and* address redacted —
     see the comment in `components/demo-section.tsx`).
-  - **Cennik** — 129 zł/mies., 14 dni za darmo, karta wymagana przy rejestracji (pierwsza
-    płatność dopiero po okresie próbnym, anuluj w każdej chwili) — card-upfront trial per
-    Stakeholder decision 2026-08-09, see `reviewpilot-backend/docs/ROADMAP.md` decisions log.
+  - **Cennik** — 129 zł/mies., "14 dni za darmo — karta wymagana, 0 zł przez okres próbny" —
+    card-upfront trial per Stakeholder decision 2026-08-09, see
+    `reviewpilot-backend/docs/ROADMAP.md` decisions log (ticket 4.6 finalized the exact copy).
   - **FAQ** — 4 questions, native `<details>`/`<summary>` accordion (no client JS needed).
   - Footer with `anna@reviewguide.eu` contact.
 - All CTAs link to `${NEXT_PUBLIC_APP_URL}/signup` — that page doesn't exist yet (`reviewguide-app`
@@ -115,6 +115,31 @@ Steps:
 Note: `mail.reviewguide.eu` (Postmark's sending domain, ticket 4.2) uses separate DNS records
 (DKIM + Return-Path TXT/CNAME) in the same GoDaddy zone — the two are independent and won't
 conflict, since one is the apex/www host and the other is the `mail.` subdomain.
+
+## Brand assets (ticket 4.6)
+
+`public/brand/icon-source.png` (Stakeholder-provided, 975×1024, transparent bg) is the single
+source of truth for the mark. `scripts/generate-brand-assets.cjs` derives everything else from it —
+re-run with `node scripts/generate-brand-assets.cjs` any time `icon-source.png` changes:
+
+- `public/favicon.ico` (16/32/48) — a **flat-silhouette** variant (dark bubble + solid amber star,
+  hand-authored SVG in the script), not the photoreal source. At true 16px the photoreal metallic
+  render turns into an illegible muddy blob (checked by rendering both at 16px and upscaling
+  8x nearest-neighbor for review); the flat version reads clearly as a star. `public/brand/icon-flat-silhouette.png`
+  keeps the 1024px flat master as a standalone asset.
+- `public/icon-192.png`, `icon-512.png`, `apple-touch-icon.png` (180×180) — full-detail renders of
+  `icon-source.png`, padded onto the landing's `#0A0806` background (not left transparent —
+  iOS fills transparent apple-touch-icons with white, which would look wrong against the dark UI).
+- `public/og-image.png` (1200×630) — icon + "ReviewGuide" wordmark, rendered via `next/og`'s
+  `ImageResponse` (Satori) using the exact bundled Geist font so the wordmark matches the landing's
+  own type, not a system-font approximation. `#0A0806` background, subtle amber radial glow behind
+  the icon.
+
+All wired via the Next.js Metadata API in `app/layout.tsx` (`icons`, `openGraph.images`,
+`twitter.images`) rather than the old `app/icon.tsx`/`app/opengraph-image.tsx` file-convention
+placeholders (removed — they only ever rendered a generic "R" glyph since no real mark existed yet).
+The same generated set is copied into `reviewguide-app/public/brand/` so `/signup`, `/login`, and
+`/app` share the identical favicon/apple-touch-icon.
 
 ## Relationship to the other two repos
 
