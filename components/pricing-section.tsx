@@ -1,6 +1,5 @@
-import Link from "next/link";
-
 import { DARK_GLASS_CARD, SECTION, SECTION_EYEBROW, SECTION_HEADING } from "@/lib/theme";
+import { GlowButton } from "@/components/ui/glow-button";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.reviewguide.eu";
 
@@ -39,12 +38,11 @@ export function PricingSection() {
           ))}
         </ul>
 
-        <Link
+        <GlowButton
           href={`${APP_URL}/signup`}
+          label="Rozpocznij 14-dniowy okres próbny"
           className="mt-8 block w-full rounded-full bg-white px-6 py-3 text-center font-semibold text-black transition-colors hover:bg-white/90"
-        >
-          Rozpocznij 14-dniowy okres próbny
-        </Link>
+        />
       </div>
     </section>
   );

@@ -1,6 +1,5 @@
-import Link from "next/link";
-
 import { cn } from "@/lib/utils";
+import { GlowButton } from "@/components/ui/glow-button";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.reviewguide.eu";
 
@@ -77,12 +76,11 @@ export function IlluminatedHero() {
         </p>
 
         <div className="flex flex-col items-center gap-3 text-base sm:flex-row">
-          <Link
+          <GlowButton
             href={`${APP_URL}/signup`}
+            label="Wypróbuj za darmo"
             className="rounded-full bg-white px-6 py-3 font-semibold text-black transition-colors hover:bg-white/90"
-          >
-            Wypróbuj za darmo
-          </Link>
+          />
           <a
             href="#jak-to-dziala"
             className="rounded-full border border-white/25 px-6 py-3 font-semibold text-white/90 transition-colors hover:bg-white/10"
