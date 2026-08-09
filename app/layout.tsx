@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 const SITE_URL = "https://reviewguide.eu";
 const TITLE = "ReviewGuide — automatyczne odpowiedzi na opinie Google dla restauracji";
 const DESCRIPTION =
-  "ReviewGuide sprawdza opinie Twojej restauracji na Google co 2 godziny i w ciągu maksymalnie 2 godzin przygotowuje gotową, spokojną odpowiedź. 14 dni za darmo, bez karty.";
+  "ReviewGuide sprawdza opinie Twojej restauracji na Google co 2 godziny i w ciągu maksymalnie 2 godzin przygotowuje gotową, spokojną odpowiedź. 14 dni za darmo · anuluj w każdej chwili · pierwsza płatność dopiero po okresie próbnym.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

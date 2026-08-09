@@ -24,7 +24,7 @@ export function PricingSection() {
           <span className="text-white/50">/mies.</span>
         </p>
         <p className="mt-2 text-sm font-medium text-amber-200/80">
-          14 dni za darmo, bez karty
+          14 dni za darmo · anuluj w każdej chwili · pierwsza płatność dopiero po okresie próbnym
         </p>
 
         <ul className="mt-6 space-y-3">

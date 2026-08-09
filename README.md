@@ -18,7 +18,9 @@ sprint status; this README only covers running/deploying *this* site.
   - **Zobacz sam** — 2 real review→response pairs from
     `docs/review/generation_batch_2026-08-05_v1.2.md` (restaurant name *and* address redacted —
     see the comment in `components/demo-section.tsx`).
-  - **Cennik** — 129 zł/mies., 14 dni za darmo, bez karty.
+  - **Cennik** — 129 zł/mies., 14 dni za darmo, karta wymagana przy rejestracji (pierwsza
+    płatność dopiero po okresie próbnym, anuluj w każdej chwili) — card-upfront trial per
+    Stakeholder decision 2026-08-09, see `reviewpilot-backend/docs/ROADMAP.md` decisions log.
   - **FAQ** — 4 questions, native `<details>`/`<summary>` accordion (no client JS needed).
   - Footer with `anna@reviewguide.eu` contact.
 - All CTAs link to `${NEXT_PUBLIC_APP_URL}/signup` — that page doesn't exist yet (`reviewguide-app`
