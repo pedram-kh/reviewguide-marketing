@@ -1,18 +1,24 @@
-import { DARK_GLASS_CARD, SECTION, SECTION_EYEBROW, SECTION_HEADING } from "@/lib/theme";
+import { SearchIcon, PencilIcon, SendIcon } from "@/components/icons";
 
 const STEPS = [
   {
     number: "01",
+    iconClass: "ic-amber",
+    icon: <SearchIcon />,
     title: "Wykrywamy",
     body: "ReviewGuide sprawdza opinie Twojej restauracji na Google co 2 godziny i wyłapuje te, które wymagają odpowiedzi — zwłaszcza te z niską oceną i bez reakcji właściciela.",
   },
   {
     number: "02",
+    iconClass: "ic-green",
+    icon: <PencilIcon />,
     title: "Piszemy odpowiedź",
     body: "AI przygotowuje spokojną, konkretną odpowiedź dopasowaną do treści opinii — w języku, w którym została napisana, bez szablonowego tonu.",
   },
   {
     number: "03",
+    iconClass: "ic-sky",
+    icon: <SendIcon />,
     title: "Ty akceptujesz i wysyłasz",
     body: "Zawsze widzisz gotową odpowiedź przed wysłaniem. Jedno kliknięcie — i opinia ma odpowiedź, zanim ktokolwiek zdąży ją przewinąć.",
   },
@@ -20,20 +26,25 @@ const STEPS = [
 
 export function HowItWorks() {
   return (
-    <section id="jak-to-dziala" className={SECTION}>
-      <p className={SECTION_EYEBROW}>Jak to działa</p>
-      <h2 className={SECTION_HEADING}>Trzy kroki, zero pilnowania.</h2>
-
-      <div className="mt-10 grid gap-5 sm:grid-cols-3">
-        {STEPS.map((step) => (
-          <div key={step.number} className={`${DARK_GLASS_CARD} step-card overflow-hidden p-6`}>
-            <p className="step-card-number font-mono text-4xl font-bold" aria-hidden="true">
-              {step.number}
-            </p>
-            <h3 className="mt-1 text-lg font-semibold text-white">{step.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-white/60">{step.body}</p>
-          </div>
-        ))}
+    <section className="section-pad tint" id="jak">
+      <div className="wrap">
+        <div className="section-head reveal">
+          <span className="eyebrow">
+            <span className="dot" />
+            Jak to działa
+          </span>
+          <h2>Trzy kroki, zero pilnowania.</h2>
+        </div>
+        <div className="steps">
+          {STEPS.map((step) => (
+            <div key={step.number} className="step reveal">
+              <div className="step-num">{step.number}</div>
+              <div className={`step-ic ${step.iconClass}`}>{step.icon}</div>
+              <h3>{step.title}</h3>
+              <p>{step.body}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

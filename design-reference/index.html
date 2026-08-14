@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ReviewGuide — profesjonalna odpowiedź na każdą opinię Google</title>
+<meta name="description" content="ReviewGuide sprawdza opinie Twojej restauracji na Google co 2 godziny i przygotowuje spokojną, konkretną odpowiedź — zanim zdążysz się zdenerwować." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#1b2330;
+    --ink-soft:#4a5568;
+    --muted:#7b8698;
+    --cream:#fffaf2;
+    --cream-2:#fff4e3;
+    --card:#ffffff;
+    --line:#f0e7d8;
+    --gold:#ffb627;
+    --gold-deep:#ff9e00;
+    --gold-ink:#8a5a00;
+    --green:#1fb872;
+    --green-soft:#e7f8ef;
+    --rose:#ff6b6b;
+    --rose-soft:#ffecec;
+    --sky:#eaf4ff;
+    --shadow-sm:0 2px 8px rgba(60,45,15,.06);
+    --shadow:0 18px 45px -20px rgba(80,55,10,.28);
+    --shadow-lg:0 40px 80px -30px rgba(80,55,10,.35);
+    --radius:22px;
+    --radius-lg:30px;
+    --wrap:1120px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Plus Jakarta Sans",system-ui,-apple-system,Segoe UI,sans-serif;
+    color:var(--ink);
+    background:var(--cream);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+  section{position:relative}
+  h1,h2,h3{line-height:1.12;letter-spacing:-.02em;font-weight:800}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--gold-ink);
+    background:var(--cream-2);
+    border:1px solid var(--line);
+    padding:7px 14px;border-radius:999px;
+  }
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--gold-deep);box-shadow:0 0 0 4px rgba(255,158,0,.18)}
+
+  /* ---------- buttons ---------- */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    font-weight:700;font-size:1rem;
+    padding:15px 26px;border-radius:16px;border:1px solid transparent;
+    cursor:pointer;transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+    white-space:nowrap;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg,var(--gold) 0%,var(--gold-deep) 100%);
+    color:#3a2600;
+    box-shadow:0 14px 30px -12px rgba(255,158,0,.7);
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 20px 38px -12px rgba(255,158,0,.85)}
+  .btn-ghost{
+    background:#fff;color:var(--ink);border-color:var(--line);
+    box-shadow:var(--shadow-sm);
+  }
+  .btn-ghost:hover{transform:translateY(-2px);border-color:#e6d8bf}
+  .btn-lg{padding:17px 32px;font-size:1.05rem}
+
+  /* ---------- nav ---------- */
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(255,250,242,.82);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(240,231,216,.8);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:74px}
+  .logo{display:flex;align-items:center;gap:11px;font-weight:800;font-size:1.2rem;letter-spacing:-.02em}
+  .logo-mark{
+    width:38px;height:38px;border-radius:12px;
+    background:linear-gradient(135deg,var(--gold) 0%,var(--gold-deep) 100%);
+    display:grid;place-items:center;color:#fff;
+    box-shadow:0 8px 18px -8px rgba(255,158,0,.9);
+  }
+  .nav-links{display:flex;align-items:center;gap:34px;font-weight:600;font-size:.96rem;color:var(--ink-soft)}
+  .nav-links a{transition:color .15s}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-cta{display:flex;align-items:center;gap:14px}
+  @media(max-width:860px){.nav-links{display:none}.nav-cta .btn-ghost{display:none}}
+
+  /* ---------- hero ---------- */
+  .hero{padding:72px 0 90px;overflow:hidden}
+  .hero::before{
+    content:"";position:absolute;inset:0;z-index:-1;
+    background:
+      radial-gradient(60% 55% at 82% 8%,rgba(255,182,39,.20),transparent 60%),
+      radial-gradient(50% 45% at 8% 30%,rgba(31,184,114,.10),transparent 60%);
+  }
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+  .hero h1{font-size:clamp(2.2rem,4.6vw,3.5rem);margin:22px 0 0}
+  .hero .lead{
+    font-size:1.18rem;color:var(--ink-soft);margin-top:22px;max-width:33ch;font-weight:500;
+  }
+  .hero .cta-row{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap}
+  .trust{display:flex;align-items:center;gap:14px;margin-top:26px;color:var(--muted);font-size:.92rem;font-weight:600}
+  .stars{color:var(--gold-deep);letter-spacing:2px;font-size:1.05rem}
+  @media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:44px}.hero .lead{max-width:none}}
+
+  /* hero visual */
+  .hero-visual{position:relative}
+  .float-card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow-lg);padding:20px 20px;
+  }
+  .review-card .rc-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .avatar{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#fff;font-size:.95rem}
+  .rc-name{font-weight:700;font-size:.98rem}
+  .rc-sub{font-size:.8rem;color:var(--muted);display:flex;align-items:center;gap:6px}
+  .g-badge{font-weight:700;font-size:.72rem;color:#4a5568;background:#f4f6fa;border-radius:6px;padding:2px 7px}
+  .rc-body{color:var(--ink-soft);font-size:.95rem}
+  .reply-card{
+    margin-top:-14px;margin-left:34px;position:relative;z-index:2;
+    background:linear-gradient(180deg,#fffdf8,#fff8ec);
+    border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:18px 20px;
+  }
+  .reply-tag{
+    display:inline-flex;align-items:center;gap:7px;font-size:.74rem;font-weight:700;
+    color:var(--gold-ink);background:var(--cream-2);border-radius:999px;padding:5px 11px;margin-bottom:10px;
+  }
+  .reply-card .rc-body{font-size:.92rem;color:var(--ink)}
+  .pill-status{
+    position:absolute;top:18px;right:-14px;
+    background:var(--green);color:#fff;font-weight:700;font-size:.78rem;
+    padding:8px 14px;border-radius:999px;box-shadow:0 12px 24px -10px rgba(31,184,114,.8);
+    display:flex;align-items:center;gap:7px;
+  }
+  .ping-badge{
+    position:absolute;left:-18px;bottom:38px;
+    background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);
+    padding:11px 14px;display:flex;align-items:center;gap:10px;font-size:.82rem;font-weight:700;
+  }
+  .ping-ic{width:30px;height:30px;border-radius:9px;background:var(--sky);display:grid;place-items:center}
+  @media(max-width:520px){.pill-status{right:8px}.ping-badge{left:6px}}
+
+  /* ---------- section shell ---------- */
+  .section-pad{padding:90px 0}
+  .section-head{text-align:center;max-width:640px;margin:0 auto 56px}
+  .section-head h2{font-size:clamp(1.9rem,3.6vw,2.7rem);margin:18px 0 12px}
+  .section-head p{color:var(--ink-soft);font-size:1.12rem;font-weight:500}
+  .tint{background:linear-gradient(180deg,#fff,var(--cream))}
+
+  /* ---------- how it works ---------- */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .step{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:32px 28px;box-shadow:var(--shadow-sm);
+    transition:transform .2s ease,box-shadow .2s ease;
+  }
+  .step:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+  .step-num{
+    font-size:.85rem;font-weight:800;color:var(--gold-ink);letter-spacing:.05em;
+  }
+  .step-ic{
+    width:56px;height:56px;border-radius:16px;display:grid;place-items:center;margin:16px 0 20px;
+  }
+  .step h3{font-size:1.28rem;margin-bottom:10px}
+  .step p{color:var(--ink-soft);font-size:.98rem}
+  .ic-amber{background:var(--cream-2);color:var(--gold-deep)}
+  .ic-green{background:var(--green-soft);color:var(--green)}
+  .ic-sky{background:var(--sky);color:#3b82f6}
+  @media(max-width:820px){.steps{grid-template-columns:1fr}}
+
+  /* ---------- examples ---------- */
+  .examples{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  .ex-note{text-align:center;color:var(--muted);font-size:.95rem;margin-bottom:40px;font-weight:500}
+  .ex-card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);
+    padding:26px;box-shadow:var(--shadow-sm);
+  }
+  .ex-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+  .ex-place{font-weight:700;font-size:.95rem}
+  .ex-place span{display:block;font-weight:500;font-size:.8rem;color:var(--muted)}
+  .review-block{
+    background:var(--cream);border:1px solid var(--line);border-radius:16px;padding:16px 18px;
+    color:var(--ink-soft);font-size:.94rem;position:relative;
+  }
+  .arrow-down{display:flex;justify-content:center;margin:14px 0}
+  .arrow-down div{
+    width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-deep));
+    display:grid;place-items:center;color:#fff;box-shadow:0 10px 20px -8px rgba(255,158,0,.8);
+  }
+  .reply-block{
+    background:linear-gradient(180deg,#fffdf8,#fff8ec);
+    border:1px solid var(--line);border-radius:16px;padding:16px 18px;font-size:.92rem;color:var(--ink);
+  }
+  .reply-block .reply-tag{margin-bottom:10px}
+  @media(max-width:820px){.examples{grid-template-columns:1fr}}
+
+  /* ---------- pricing ---------- */
+  .price-wrap{max-width:520px;margin:0 auto}
+  .price-card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);
+    box-shadow:var(--shadow-lg);padding:40px 38px;position:relative;overflow:hidden;
+  }
+  .price-card::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:6px;
+    background:linear-gradient(90deg,var(--gold),var(--gold-deep));
+  }
+  .price-plan{font-weight:700;color:var(--ink-soft);font-size:1rem}
+  .price-amount{display:flex;align-items:baseline;gap:8px;margin:14px 0 6px}
+  .price-amount .num{font-size:3.2rem;font-weight:800;letter-spacing:-.03em}
+  .price-amount .per{color:var(--muted);font-weight:600}
+  .trial-badge{
+    display:inline-flex;align-items:center;gap:8px;background:var(--green-soft);color:#0e7a4a;
+    font-weight:700;font-size:.86rem;padding:8px 14px;border-radius:999px;margin-bottom:24px;
+  }
+  .feat-list{list-style:none;display:grid;gap:14px;margin:24px 0 30px}
+  .feat-list li{display:flex;align-items:flex-start;gap:12px;font-size:1rem;color:var(--ink-soft)}
+  .check{
+    flex:none;width:24px;height:24px;border-radius:50%;background:var(--green-soft);color:var(--green);
+    display:grid;place-items:center;margin-top:2px;
+  }
+  .price-card .btn{width:100%}
+
+  /* ---------- faq ---------- */
+  .faq-wrap{max-width:760px;margin:0 auto;display:grid;gap:14px}
+  .faq-item{
+    background:var(--card);border:1px solid var(--line);border-radius:18px;
+    box-shadow:var(--shadow-sm);overflow:hidden;transition:box-shadow .2s;
+  }
+  .faq-item[open]{box-shadow:var(--shadow)}
+  .faq-item summary{
+    list-style:none;cursor:pointer;padding:22px 24px;
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    font-weight:700;font-size:1.06rem;
+  }
+  .faq-item summary::-webkit-details-marker{display:none}
+  .faq-icon{
+    flex:none;width:30px;height:30px;border-radius:9px;background:var(--cream-2);color:var(--gold-deep);
+    display:grid;place-items:center;transition:transform .25s ease,background .2s;font-size:1.1rem;
+  }
+  .faq-item[open] .faq-icon{transform:rotate(45deg);background:var(--gold);color:#fff}
+  .faq-item p{padding:0 24px 24px;color:var(--ink-soft);font-size:1rem;max-width:64ch}
+
+  /* ---------- final cta ---------- */
+  .final-cta{padding:20px 0 100px}
+  .cta-box{
+    position:relative;overflow:hidden;
+    background:linear-gradient(135deg,#fff4e0 0%,#fff9f0 55%,#eefaf3 100%);
+    border:1px solid var(--line);border-radius:var(--radius-lg);
+    padding:64px 40px;text-align:center;box-shadow:var(--shadow);
+  }
+  .cta-box::before{content:"";position:absolute;width:280px;height:280px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,182,39,.35),transparent 70%);top:-120px;right:-60px}
+  .cta-box::after{content:"";position:absolute;width:240px;height:240px;border-radius:50%;
+    background:radial-gradient(circle,rgba(31,184,114,.22),transparent 70%);bottom:-120px;left:-40px}
+  .cta-box h2{font-size:clamp(1.8rem,3.6vw,2.6rem);margin-bottom:14px;position:relative}
+  .cta-box p{color:var(--ink-soft);font-size:1.12rem;margin-bottom:28px;position:relative;font-weight:500}
+  .cta-box .btn{position:relative}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--line);background:#fff;padding:40px 0}
+  .foot-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  .foot-links{display:flex;align-items:center;gap:26px;color:var(--muted);font-weight:600;font-size:.94rem}
+  .foot-links a:hover{color:var(--ink)}
+  .foot-copy{color:var(--muted);font-size:.92rem}
+
+  /* Reveal is a progressive enhancement: only hidden when JS is active (.js on <html>). */
+  .js .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+  .js .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){
+    .js .reveal{opacity:1;transform:none;transition:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="logo" href="#top">
+      <span class="logo-mark">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.9 6.1 6.6.9-4.8 4.6 1.2 6.6L12 17.9 6.1 20.2l1.2-6.6L2.5 9l6.6-.9L12 2z" fill="currentColor"/></svg>
+      </span>
+      ReviewGuide
+    </a>
+    <nav class="nav-links">
+      <a href="#jak">Jak to działa</a>
+      <a href="#przyklady">Przykłady</a>
+      <a href="#cennik">Cennik</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#cennik" class="btn btn-ghost">Zaloguj się</a>
+      <a href="#cennik" class="btn btn-primary">Wypróbuj za darmo</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div class="hero-copy reveal">
+      <span class="eyebrow"><span class="dot"></span>Automatyczne odpowiedzi na opinie</span>
+      <h1>Każda negatywna opinia na Google dostaje profesjonalną odpowiedź, zanim zdążysz się zdenerwować.</h1>
+      <p class="lead">ReviewGuide sprawdza opinie Twojej restauracji na Google co 2 godziny i w ciągu maksymalnie 2 godzin przygotowuje gotową odpowiedź — spokojną, konkretną i bez szablonowego tonu.</p>
+      <div class="cta-row">
+        <a href="#cennik" class="btn btn-primary btn-lg">Wypróbuj za darmo</a>
+        <a href="#jak" class="btn btn-ghost btn-lg">Zobacz, jak to działa</a>
+      </div>
+      <div class="trust">
+        <span class="stars">★★★★★</span>
+        <span>Każda opinia dostaje odpowiedź — zanim zdążysz ją przeczytać.</span>
+      </div>
+    </div>
+
+    <div class="hero-visual reveal">
+      <span class="pill-status">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Odpowiedź gotowa
+      </span>
+      <div class="float-card review-card">
+        <div class="rc-head">
+          <div class="avatar" style="background:linear-gradient(135deg,#ff8a8a,#ff6b6b)">MK</div>
+          <div>
+            <div class="rc-name">Marek K.</div>
+            <div class="rc-sub"><span class="g-badge">Google</span> <span class="stars" style="font-size:.85rem">★★☆☆☆</span></div>
+          </div>
+        </div>
+        <div class="rc-body">„Miejsce z potencjałem, ale długie oczekiwanie na obsługę i stolik na 2 osoby dla naszej piątki. Personel niezainteresowany klientem…”</div>
+      </div>
+      <div class="reply-card">
+        <span class="reply-tag">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.9 6.1 6.6.9-4.8 4.6 1.2 6.6L12 17.9 6.1 20.2l1.2-6.6L2.5 9l6.6-.9L12 2z" fill="currentColor"/></svg>
+          Odpowiedź od ReviewGuide
+        </span>
+        <div class="rc-body">„Szanowni Państwo, dziękujemy za opinię i przykro nam z powodu opisanych niedogodności. Kolejki oraz niedopasowanie stolika to sygnały, które traktujemy poważnie — nikt nie powinien czuć się u nas niezauważony…”</div>
+      </div>
+      <div class="ping-badge">
+        <span class="ping-ic">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg>
+        </span>
+        Sprawdzamy co 2h
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section-pad tint" id="jak">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow"><span class="dot"></span>Jak to działa</span>
+      <h2>Trzy kroki, zero pilnowania.</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <div class="step-ic ic-amber">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Wykrywamy</h3>
+        <p>ReviewGuide sprawdza opinie Twojej restauracji na Google co 2 godziny i wyłapuje te, które wymagają odpowiedzi — zwłaszcza te z niską oceną i bez reakcji właściciela.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">02</div>
+        <div class="step-ic ic-green">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9" stroke-linecap="round"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
+        </div>
+        <h3>Piszemy odpowiedź</h3>
+        <p>AI przygotowuje spokojną, konkretną odpowiedź dopasowaną do treści opinii — w języku, w którym została napisana, bez szablonowego tonu.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">03</div>
+        <div class="step-ic ic-sky">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13" stroke-linecap="round"/><path d="M22 2l-7 20-4-9-9-4 20-7z" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Ty akceptujesz i wysyłasz</h3>
+        <p>Zawsze widzisz gotową odpowiedź przed wysłaniem. Jedno kliknięcie — i opinia ma odpowiedź, zanim ktokolwiek zdąży ją przewinąć.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXAMPLES -->
+<section class="section-pad" id="przyklady">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow"><span class="dot"></span>Zobacz sam</span>
+      <h2>Prawdziwe opinie. Prawdziwe odpowiedzi.</h2>
+    </div>
+    <p class="ex-note reveal">Dwie autentyczne pary opinia → odpowiedź wygenerowane przez ReviewGuide (nazwa i adres restauracji ukryta).</p>
+    <div class="examples">
+
+      <div class="ex-card reveal">
+        <div class="ex-meta">
+          <div class="ex-place">Restauracja<span>Śródmieście</span></div>
+          <div class="stars">★★★★★</div>
+        </div>
+        <div class="review-block">
+          „Byłem zachęcony opiniami o kultowych zapiekankach. Niestety spotkało mnie wielkie rozczarowanie. Pieczarek i sera mało. Dodatkowo ser spalony. Jedynie na plus miękka i chrupiąca bułka.”
+        </div>
+        <div class="arrow-down"><div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12l7 7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+        <div class="reply-block">
+          <span class="reply-tag">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.9 6.1 6.6.9-4.8 4.6 1.2 6.6L12 17.9 6.1 20.2l1.2-6.6L2.5 9l6.6-.9L12 2z" fill="currentColor"/></svg>
+            Odpowiedź ReviewGuide
+          </span>
+          Szanowni Państwo, dziękujemy za podzielenie się opinią. Bardzo nam przykro, że zapiekanka nie spełniła Państwa oczekiwań – zbyt mała ilość farszu oraz przypalony ser to sygnał, na który koniecznie musimy zwrócić uwagę, zwłaszcza że to danie, z którego jesteśmy znani i na którym nam szczególnie zależy. Cieszymy się, że przynajmniej bułka przypadła Państwu do gustu, ale rozumiemy, że to za mało, by uznać wizytę za udaną. Chętnie porozmawiamy bezpośrednio o tym doświadczeniu – zapraszamy do kontaktu telefonicznego lub mailowego, podanego na naszej stronie. Państwa uwagi pomagają nam dbać o jakość każdej zapiekanki, jaka wychodzi z naszej kuchni.
+        </div>
+      </div>
+
+      <div class="ex-card reveal">
+        <div class="ex-meta">
+          <div class="ex-place">Restauracja<span>Śródmieście</span></div>
+          <div class="stars">★★★★★</div>
+        </div>
+        <div class="review-block">
+          „Miejsce z potencjałem, niestety padło ofiarą własnego sukcesu z powodu kolejek. Długie oczekiwanie na obsługę, stolik na 2 osoby przydzielony do grupy 5 osobowej. Personel nie jest zainteresowany klientem. Zamiast masła roślinna maź.”
+        </div>
+        <div class="arrow-down"><div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12l7 7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+        <div class="reply-block">
+          <span class="reply-tag">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.9 6.1 6.6.9-4.8 4.6 1.2 6.6L12 17.9 6.1 20.2l1.2-6.6L2.5 9l6.6-.9L12 2z" fill="currentColor"/></svg>
+            Odpowiedź ReviewGuide
+          </span>
+          Szanowni Państwo, dziękujemy za opinię i przykro nam z powodu opisanych niedogodności. Kolejki, niedopasowanie stolika do liczby osób oraz brak zaangażowania ze strony obsługi to sygnały, które traktujemy poważnie – nikt nie powinien czuć się w naszej restauracji niezauważony. Zwrócimy szczególną uwagę na organizację obsadzania stolików w godzinach wzmożonego ruchu oraz na sposób podejścia personelu do gości. Odnotowujemy również uwagę dotyczącą dodatku serwowanego do pieczywa – doceniamy tę informację. Będziemy wdzięczni za kontakt bezpośredni, jeśli mieliby Państwo chwilę, aby opisać szczegóły tej wizyty – pomoże nam to lepiej zrozumieć, co poszło nie tak, i wyciągnąć właściwe wnioski na przyszłość.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section-pad tint" id="cennik">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow"><span class="dot"></span>Cennik</span>
+      <h2>Jedna, prosta cena.</h2>
+    </div>
+    <div class="price-wrap reveal">
+      <div class="price-card">
+        <div class="price-plan">ReviewGuide dla jednej restauracji</div>
+        <div class="price-amount">
+          <span class="num">129 zł</span>
+          <span class="per">/mies.</span>
+        </div>
+        <div class="trial-badge">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          14 dni za darmo — karta wymagana, 0 zł przez okres próbny
+        </div>
+        <ul class="feat-list">
+          <li><span class="check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Wykrywanie nowych opinii Google co 2 godziny</li>
+          <li><span class="check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Odpowiedzi w języku opinii (PL i EN)</li>
+          <li><span class="check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Wgląd i akceptacja przed wysyłką</li>
+          <li><span class="check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Wrażliwe zgłoszenia oznaczone do ręcznej weryfikacji</li>
+          <li><span class="check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Bez zobowiązań — anuluj w każdej chwili</li>
+        </ul>
+        <a href="#" class="btn btn-primary btn-lg">Rozpocznij 14-dniowy okres próbny</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section-pad" id="faq">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow"><span class="dot"></span>FAQ</span>
+      <h2>Najczęstsze pytania.</h2>
+    </div>
+    <div class="faq-wrap">
+      <details class="faq-item reveal">
+        <summary>Czy muszę podawać dane karty, żeby zacząć?<span class="faq-icon">+</span></summary>
+        <p>Tak — podajesz kartę przy starcie, ale przez 14 dni nie pobieramy żadnej opłaty. Możesz anulować w każdej chwili w panelu, zanim naliczy się pierwsza płatność.</p>
+      </details>
+      <details class="faq-item reveal">
+        <summary>Czy odpowiedzi są publikowane automatycznie?<span class="faq-icon">+</span></summary>
+        <p>Nie. Zawsze widzisz gotową odpowiedź przed wysłaniem i to Ty decydujesz, czy ją wysłać — ReviewGuide nigdy nie publikuje niczego bez Twojej zgody.</p>
+      </details>
+      <details class="faq-item reveal">
+        <summary>W jakich językach ReviewGuide odpowiada?<span class="faq-icon">+</span></summary>
+        <p>Odpowiadamy w języku, w którym napisana jest opinia — najczęściej polskim lub angielskim.</p>
+      </details>
+      <details class="faq-item reveal">
+        <summary>Co jeśli opinia dotyczy poważnego problemu, np. higieny?<span class="faq-icon">+</span></summary>
+        <p>Takie zgłoszenia są automatycznie oznaczane do ręcznej weryfikacji przed wysłaniem odpowiedzi — nigdy nie wysyłamy automatycznej odpowiedzi na wrażliwe sprawy.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="wrap reveal">
+    <div class="cta-box">
+      <h2>Każda opinia dostaje odpowiedź.<br>Zanim zdążysz ją przeczytać.</h2>
+      <p>Zacznij 14-dniowy okres próbny — 0 zł, anuluj w każdej chwili.</p>
+      <a href="#cennik" class="btn btn-primary btn-lg">Wypróbuj za darmo</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap foot-inner">
+    <a class="logo" href="#top">
+      <span class="logo-mark">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.9 6.1 6.6.9-4.8 4.6 1.2 6.6L12 17.9 6.1 20.2l1.2-6.6L2.5 9l6.6-.9L12 2z" fill="currentColor"/></svg>
+      </span>
+      ReviewGuide
+    </a>
+    <div class="foot-links">
+      <a href="#jak">Jak to działa</a>
+      <a href="#cennik">Cennik</a>
+      <a href="#faq">FAQ</a>
+      <a href="mailto:anna@reviewguide.eu">anna@reviewguide.eu</a>
+    </div>
+    <div class="foot-copy">© 2026 ReviewGuide</div>
+  </div>
+</footer>
+
+<script>
+  document.documentElement.classList.add('js');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.12});
+  const revealEls = document.querySelectorAll('.reveal');
+  revealEls.forEach((el,i)=>{
+    el.style.transitionDelay = (i%3)*80 + 'ms';
+    io.observe(el);
+  });
+  // Safety net: if anything is still hidden shortly after load, show it.
+  window.addEventListener('load',()=>{
+    setTimeout(()=>revealEls.forEach(el=>el.classList.add('in')),1200);
+  });
+</script>
+</body>
+</html>

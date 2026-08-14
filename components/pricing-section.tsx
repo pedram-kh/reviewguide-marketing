@@ -1,10 +1,10 @@
-import Image from "next/image";
-
-import { SECTION, SECTION_EYEBROW, SECTION_HEADING } from "@/lib/theme";
-import { GlowButton } from "@/components/ui/glow-button";
+import { Button } from "@/components/ui/button";
+import { CheckIcon } from "@/components/icons";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.reviewguide.eu";
 
+// Content guard (ticket 6.5): 129 zł/mies is the approved price; the trial badge names the
+// card-upfront model explicitly ("karta wymagana") — zero "bez karty" anywhere in this copy.
 const FEATURES = [
   "Wykrywanie nowych opinii Google co 2 godziny",
   "Odpowiedzi w języku opinii (PL i EN)",
@@ -15,45 +15,40 @@ const FEATURES = [
 
 export function PricingSection() {
   return (
-    <section id="cennik" className={SECTION}>
-      <p className={SECTION_EYEBROW}>Cennik</p>
-      <h2 className={SECTION_HEADING}>Jedna, prosta cena.</h2>
-
-      <div className="pricing-card-frame mt-10 max-w-md">
-        <div className="pricing-card-inner rounded-[calc(1rem-1px)] border border-white/10 bg-[#0b0906]/95 p-8 shadow-2xl shadow-black/50 backdrop-blur-2xl">
-          <Image
-            src="/icon-192.png"
-            alt=""
-            width={48}
-            height={48}
-            className="rounded-full"
-            aria-hidden="true"
-          />
-          <p className="mt-4 text-sm font-medium text-white/50">ReviewGuide dla jednej restauracji</p>
-          <p className="mt-3 flex items-baseline gap-2">
-            <span className="text-5xl font-semibold tracking-tight text-white">129 zł</span>
-            <span className="text-white/50">/mies.</span>
-          </p>
-          <p className="mt-2 text-sm font-medium text-amber-200/80">
-            14 dni za darmo — karta wymagana, 0 zł przez okres próbny
-          </p>
-
-          <ul className="mt-6 space-y-3">
-            {FEATURES.map((feature) => (
-              <li key={feature} className="flex items-start gap-2 text-sm text-white/75">
-                <span className="mt-0.5 text-amber-300" aria-hidden="true">
-                  ✓
-                </span>
-                {feature}
-              </li>
-            ))}
-          </ul>
-
-          <GlowButton
-            href={`${APP_URL}/signup`}
-            label="Rozpocznij 14-dniowy okres próbny"
-            className="mt-8 block w-full rounded-full bg-white px-6 py-3 text-center font-semibold text-black transition-colors hover:bg-white/90"
-          />
+    <section className="section-pad tint" id="cennik">
+      <div className="wrap">
+        <div className="section-head reveal">
+          <span className="eyebrow">
+            <span className="dot" />
+            Cennik
+          </span>
+          <h2>Jedna, prosta cena.</h2>
+        </div>
+        <div className="price-wrap reveal">
+          <div className="price-card">
+            <div className="price-plan">ReviewGuide dla jednej restauracji</div>
+            <div className="price-amount">
+              <span className="num">129 zł</span>
+              <span className="per">/mies.</span>
+            </div>
+            <div className="trial-badge">
+              <CheckIcon size={15} />
+              14 dni za darmo — karta wymagana, 0 zł przez okres próbny
+            </div>
+            <ul className="feat-list">
+              {FEATURES.map((feature) => (
+                <li key={feature}>
+                  <span className="check">
+                    <CheckIcon size={13} />
+                  </span>
+                  {feature}
+                </li>
+              ))}
+            </ul>
+            <Button href={`${APP_URL}/signup`} size="lg">
+              Rozpocznij 14-dniowy okres próbny
+            </Button>
+          </div>
         </div>
       </div>
     </section>

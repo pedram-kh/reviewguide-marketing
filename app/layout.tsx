@@ -1,22 +1,23 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+// next/font self-hosts + preloads the font (no render-blocking Google Fonts <link>), and
+// latin-ext is required — the base "latin" subset drops the Polish diacritics (ą ć ę ł ń ó ś ź ż)
+// this entire site is written in.
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-plus-jakarta",
+  display: "swap",
 });
 
 const SITE_URL = "https://reviewguide.eu";
-const TITLE = "ReviewGuide — automatyczne odpowiedzi na opinie Google dla restauracji";
+// Ticket 6.5: title/description ported verbatim from the Stakeholder's design-reference/index.html.
+const TITLE = "ReviewGuide — profesjonalna odpowiedź na każdą opinię Google";
 const DESCRIPTION =
-  "ReviewGuide sprawdza opinie Twojej restauracji na Google co 2 godziny i w ciągu maksymalnie 2 godzin przygotowuje gotową, spokojną odpowiedź. 14 dni za darmo · anuluj w każdej chwili · pierwsza płatność dopiero po okresie próbnym.";
+  "ReviewGuide sprawdza opinie Twojej restauracji na Google co 2 godziny i przygotowuje spokojną, konkretną odpowiedź — zanim zdążysz się zdenerwować.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -49,8 +50,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="pl" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col bg-black text-white">{children}</body>
+    <html lang="pl" className={plusJakartaSans.variable}>
+      <body>{children}</body>
     </html>
   );
 }

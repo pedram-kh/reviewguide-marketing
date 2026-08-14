@@ -1,5 +1,5 @@
-import { DARK_GLASS_CARD, SECTION, SECTION_EYEBROW, SECTION_HEADING } from "@/lib/theme";
-
+// Content guard (ticket 6.5): the card-upfront answer below is kept verbatim from
+// design-reference/index.html — it is deliberately CR-1-correct ("podajesz kartę przy starcie...").
 const FAQS = [
   {
     q: "Czy muszę podawać dane karty, żeby zacząć?",
@@ -21,22 +21,26 @@ const FAQS = [
 
 export function FaqSection() {
   return (
-    <section id="faq" className={SECTION}>
-      <p className={SECTION_EYEBROW}>FAQ</p>
-      <h2 className={SECTION_HEADING}>Najczęstsze pytania.</h2>
-
-      <div className="mt-10 space-y-3">
-        {FAQS.map((faq) => (
-          <details key={faq.q} className={`${DARK_GLASS_CARD} group p-5`}>
-            <summary className="flex cursor-pointer list-none items-center justify-between font-medium text-white">
-              {faq.q}
-              <span className="ml-4 shrink-0 text-white/40 transition-transform group-open:rotate-45">
-                +
-              </span>
-            </summary>
-            <p className="mt-3 text-sm leading-relaxed text-white/65">{faq.a}</p>
-          </details>
-        ))}
+    <section className="section-pad" id="faq">
+      <div className="wrap">
+        <div className="section-head reveal">
+          <span className="eyebrow">
+            <span className="dot" />
+            FAQ
+          </span>
+          <h2>Najczęstsze pytania.</h2>
+        </div>
+        <div className="faq-wrap">
+          {FAQS.map((faq) => (
+            <details key={faq.q} className="faq-item reveal">
+              <summary>
+                {faq.q}
+                <span className="faq-icon">+</span>
+              </summary>
+              <p>{faq.a}</p>
+            </details>
+          ))}
+        </div>
       </div>
     </section>
   );

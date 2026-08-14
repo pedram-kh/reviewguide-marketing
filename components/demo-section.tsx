@@ -1,76 +1,67 @@
-import { DARK_GLASS_CARD, SECTION, SECTION_EYEBROW, SECTION_HEADING } from "@/lib/theme";
+import { ArrowDownIcon } from "@/components/icons";
+import { ReplyTag } from "@/components/reply-tag";
 
 /**
  * Two real review→response pairs pulled from docs/review/generation_batch_2026-08-05_v1.2.md
- * (prompt v1.2, PM-reviewed batch), per ticket 4.1. Restaurant name AND address are redacted —
- * the ticket only asked for the name, but a real Warsaw street address next to a very specific
- * review is itself enough to re-identify the place on Google, so it's blanked too (disclosed).
+ * (prompt v1.2, PM-reviewed batch), per ticket 4.1 — wording preserved verbatim through the 6.5
+ * redesign (ticket 6.5's content guard: anonymized example texts stay as-is). Restaurant name AND
+ * address are redacted — the ticket only asked for the name, but a real Warsaw street address next
+ * to a very specific review is itself enough to re-identify the place on Google, so it's blanked
+ * too (disclosed, carried over from 4.1).
  */
 const PAIRS = [
   {
-    rating: 2,
     review:
-      "Byłem zachęcony opiniami o kultowych zapiekankach. Niestety spotkało mnie wielkie rozczarowanie. Pieczarek i sera mało. Dodatkowo ser spalony. Jedynie na plus miękka i chrupiąca bułka",
+      "Byłem zachęcony opiniami o kultowych zapiekankach. Niestety spotkało mnie wielkie rozczarowanie. Pieczarek i sera mało. Dodatkowo ser spalony. Jedynie na plus miękka i chrupiąca bułka.",
     response:
-      "Szanowni Państwo,\n\ndziękujemy za podzielenie się opinią. Bardzo nam przykro, że zapiekanka nie spełniła Państwa oczekiwań – zbyt mała ilość farszu oraz przypalony ser to sygnał, na który koniecznie musimy zwrócić uwagę, zwłaszcza że to danie, z którego jesteśmy znani i na którym nam szczególnie zależy. Cieszymy się, że przynajmniej bułka przypadła Państwu do gustu, ale rozumiemy, że to za mało, by uznać wizytę za udaną.\n\nChętnie porozmawiamy bezpośrednio o tym doświadczeniu – zapraszamy do kontaktu telefonicznego lub mailowego, podanego na naszej stronie. Państwa uwagi pomagają nam dbać o jakość każdej zapiekanki, jaka wychodzi z naszej kuchni.",
+      "Szanowni Państwo, dziękujemy za podzielenie się opinią. Bardzo nam przykro, że zapiekanka nie spełniła Państwa oczekiwań – zbyt mała ilość farszu oraz przypalony ser to sygnał, na który koniecznie musimy zwrócić uwagę, zwłaszcza że to danie, z którego jesteśmy znani i na którym nam szczególnie zależy. Cieszymy się, że przynajmniej bułka przypadła Państwu do gustu, ale rozumiemy, że to za mało, by uznać wizytę za udaną. Chętnie porozmawiamy bezpośrednio o tym doświadczeniu – zapraszamy do kontaktu telefonicznego lub mailowego, podanego na naszej stronie. Państwa uwagi pomagają nam dbać o jakość każdej zapiekanki, jaka wychodzi z naszej kuchni.",
   },
   {
-    rating: 2,
     review:
       "Miejsce z potencjałem, niestety padło ofiarą własnego sukcesu z powodu kolejek. Długie oczekiwanie na obsługę, stolik na 2 osoby przydzielony do grupy 5 osobowej. Personel nie jest zainteresowany klientem. Zamiast masła roślinna maź.",
     response:
-      "Szanowni Państwo,\n\ndziękujemy za opinię i przykro nam z powodu opisanych niedogodności. Kolejki, niedopasowanie stolika do liczby osób oraz brak zaangażowania ze strony obsługi to sygnały, które traktujemy poważnie – nikt nie powinien czuć się w naszej restauracji niezauważony. Zwrócimy szczególną uwagę na organizację obsadzania stolików w godzinach wzmożonego ruchu oraz na sposób podejścia personelu do gości. Odnotowujemy również uwagę dotyczącą dodatku serwowanego do pieczywa – doceniamy tę informację. Będziemy wdzięczni za kontakt bezpośredni, jeśli mieliby Państwo chwilę, aby opisać szczegóły tej wizyty – pomoże nam to lepiej zrozumieć, co poszło nie tak, i wyciągnąć właściwe wnioski na przyszłość.",
+      "Szanowni Państwo, dziękujemy za opinię i przykro nam z powodu opisanych niedogodności. Kolejki, niedopasowanie stolika do liczby osób oraz brak zaangażowania ze strony obsługi to sygnały, które traktujemy poważnie – nikt nie powinien czuć się w naszej restauracji niezauważony. Zwrócimy szczególną uwagę na organizację obsadzania stolików w godzinach wzmożonego ruchu oraz na sposób podejścia personelu do gości. Odnotowujemy również uwagę dotyczącą dodatku serwowanego do pieczywa – doceniamy tę informację. Będziemy wdzięczni za kontakt bezpośredni, jeśli mieliby Państwo chwilę, aby opisać szczegóły tej wizyty – pomoże nam to lepiej zrozumieć, co poszło nie tak, i wyciągnąć właściwe wnioski na przyszłość.",
   },
 ] as const;
 
 export function DemoSection() {
   return (
-    <section id="przyklady" className={SECTION}>
-      <p className={SECTION_EYEBROW}>Zobacz sam</p>
-      <h2 className={SECTION_HEADING}>Prawdziwe opinie. Prawdziwe odpowiedzi.</h2>
-      <p className="mt-3 max-w-2xl text-white/60">
-        Dwie autentyczne pary opinia → odpowiedź wygenerowane przez ReviewGuide (nazwa i adres
-        restauracji ukryte).
-      </p>
-
-      <div className="mt-10 grid gap-6 lg:grid-cols-2">
-        {PAIRS.map((pair, i) => (
-          <div key={i} className={`${DARK_GLASS_CARD} flex flex-col gap-4 p-6`}>
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-white/50">Restauracja w Śródmieściu</span>
-              <span className="text-amber-300" aria-label={`Ocena: ${pair.rating} na 5`}>
-                {"★".repeat(pair.rating)}
-                <span className="text-white/20">{"★".repeat(5 - pair.rating)}</span>
-              </span>
-            </div>
-
-            <div className="rounded-xl border border-white/[0.06] bg-black/40 p-4 saturate-[0.85]">
-              <p className="text-xs font-medium tracking-wide text-white/35 uppercase">Opinia</p>
-              <p className="mt-2 text-sm leading-relaxed text-white/60">{pair.review}</p>
-            </div>
-
-            <div className="demo-connector" aria-hidden="true">
-              <svg width="16" height="20" viewBox="0 0 16 20" fill="none">
-                <path
-                  d="M8 0V14M8 14L2 8M8 14L14 8"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-
-            <div className="demo-response-card rounded-xl border border-amber-200/20 border-l-2 border-l-amber-400/70 bg-amber-100/[0.05] p-4">
-              <p className="text-xs font-semibold tracking-wide text-amber-300 uppercase">
-                Odpowiedź ReviewGuide
-              </p>
-              <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-white/90">
+    <section className="section-pad" id="przyklady">
+      <div className="wrap">
+        <div className="section-head reveal">
+          <span className="eyebrow">
+            <span className="dot" />
+            Zobacz sam
+          </span>
+          <h2>Prawdziwe opinie. Prawdziwe odpowiedzi.</h2>
+        </div>
+        <p className="ex-note reveal">
+          Dwie autentyczne pary opinia → odpowiedź wygenerowane przez ReviewGuide (nazwa i adres
+          restauracji ukryta).
+        </p>
+        <div className="examples">
+          {PAIRS.map((pair, i) => (
+            <div key={i} className="ex-card reveal">
+              <div className="ex-meta">
+                <div className="ex-place">
+                  Restauracja
+                  <span>Śródmieście</span>
+                </div>
+                <div className="stars">★★★★★</div>
+              </div>
+              <div className="review-block">„{pair.review}”</div>
+              <div className="arrow-down">
+                <div>
+                  <ArrowDownIcon />
+                </div>
+              </div>
+              <div className="reply-block">
+                <ReplyTag label="Odpowiedź ReviewGuide" />
                 {pair.response}
-              </p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );

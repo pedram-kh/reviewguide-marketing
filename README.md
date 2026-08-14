@@ -6,25 +6,43 @@ Public Polish-language marketing landing page for [ReviewGuide](https://github.c
 backend repo — that repo's `/docs` folder is the single source of truth for product rules and
 sprint status; this README only covers running/deploying *this* site.
 
-## What's here (ticket 4.1 scope)
+## Design source of truth (ticket 6.5)
+
+`design-reference/index.html` is a self-contained static mockup the Stakeholder places here when
+the landing gets redesigned — inline CSS/JS, no build step, meant to be opened directly in a
+browser. It is **not served**; it's committed purely so the live page's markup/CSS has something
+exact to diff against. If you're changing `app/page.tsx` or `app/globals.css`, open
+`design-reference/index.html` side by side first and check your diff doesn't drift from it —
+spacing, colors, shadows and copy all come from that file, not from taste. The light
+cream/gold/green palette, Plus Jakarta Sans, and the reveal-on-scroll fade are all ported from it
+1:1 (see `app/globals.css`'s top comment for the exact list of mechanical differences, e.g. the
+font loads via `next/font` instead of the reference's Google Fonts `<link>`).
+
+## What's here (ticket 6.5 redesign; supersedes ticket 4.1's dark illuminated-hero version)
 
 - `/` — single-page landing site, entirely in Polish:
-  - **Hero** — dark illuminated-glow hero (`components/ui/illuminated-hero.tsx`, shadcn-style
-    `components/ui/` convention + `lib/utils.ts`'s `cn()`), adapted from the Stakeholder-provided
-    reference component with Polish copy, a real `<h1>` for a11y/SEO behind the decorative
-    `aria-hidden` glow text, a CTA pair, and a `prefers-reduced-motion` + `<768px` fallback that
-    swaps the SVG glow filter (and the text-duplicating fade-in effect) for a plain text-shadow.
+  - **Hero** (`components/hero-section.tsx`) — light cream/gold hero with a real, visible `<h1>`
+    (no hidden-behind-a-glow-effect duplicate — see the component's doc comment for why that
+    matters, carried over from the old dark hero's text-ghosting bug), floating review→reply demo
+    cards, a "ready" status pill and a "checks every 2h" ping badge.
   - **Jak to działa** — 3-step explainer.
-  - **Zobacz sam** — 2 real review→response pairs from
+  - **Zobacz sam** (`components/demo-section.tsx`) — 2 real review→response pairs from
     `docs/review/generation_batch_2026-08-05_v1.2.md` (restaurant name *and* address redacted —
-    see the comment in `components/demo-section.tsx`).
+    see the comment in that file). Wording is unchanged since ticket 4.1; only the surrounding
+    visual style changed in 6.5.
   - **Cennik** — 129 zł/mies., "14 dni za darmo — karta wymagana, 0 zł przez okres próbny" —
     card-upfront trial per Stakeholder decision 2026-08-09, see
-    `reviewpilot-backend/docs/ROADMAP.md` decisions log (ticket 4.6 finalized the exact copy).
-  - **FAQ** — 4 questions, native `<details>`/`<summary>` accordion (no client JS needed).
-  - Footer with `anna@reviewguide.eu` contact.
-- All CTAs link to `${NEXT_PUBLIC_APP_URL}/signup` — that page doesn't exist yet (`reviewguide-app`
-  ticket 4.2 builds it), so the link is a stub per the ticket's own "(stub ok)".
+    `reviewpilot-backend/docs/ROADMAP.md` decisions log.
+  - **FAQ** — 4 questions, native `<details>`/`<summary>` accordion (no client JS needed); the
+    card-upfront answer is kept byte-identical to `design-reference/index.html` (CR-1-correct).
+  - **Final CTA** — new in 6.5, the closing band between FAQ and the footer.
+  - Footer with nav anchors + `anna@reviewguide.eu` contact.
+- Reveal-on-scroll (`components/reveal-on-scroll.tsx`) is a small client component using
+  `IntersectionObserver` — a progressive enhancement only (content stays visible if JS never
+  runs), and does nothing when `prefers-reduced-motion` is set (handled in CSS).
+- CTA wiring: "Wypróbuj za darmo" / "Rozpocznij 14-dniowy okres próbny" → `${NEXT_PUBLIC_APP_URL}/signup`;
+  "Zaloguj się" → `${NEXT_PUBLIC_APP_URL}/login`; "Zobacz, jak to działa" → `#jak`; nav links →
+  section anchors (`#jak`, `#przyklady`, `#cennik`, `#faq`).
 - No backend calls, no auth, no server code at all — this is a fully static site
   (`next.config.ts`: `output: "export"`).
 
@@ -140,6 +158,12 @@ All wired via the Next.js Metadata API in `app/layout.tsx` (`icons`, `openGraph.
 placeholders (removed — they only ever rendered a generic "R" glyph since no real mark existed yet).
 The same generated set is copied into `reviewguide-app/public/brand/` so `/signup`, `/login`, and
 `/app` share the identical favicon/apple-touch-icon.
+
+**Disclosed, not fixed by ticket 6.5:** these assets were carried over unchanged per that ticket's
+explicit "preserve OG tags + favicon" instruction. `og-image.png`'s `#0A0806` dark background was
+designed to match the old dark hero and now sits oddly against the new light-cream page it's
+advertising when shared on social — cosmetic only (nothing on the actual page uses this asset as
+a background), but worth a follow-up ticket to regenerate it against the new palette.
 
 ## Relationship to the other two repos
 
