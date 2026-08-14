@@ -36,9 +36,10 @@ hardcoded `★★★★★`. Don't "fix" this back when diffing against the refe
     visual style changed in 6.5. Star badges show the review's actual rating (both are 2-star
     complaints → ★★☆☆☆), a deliberate ticket-6.5a divergence from the reference's fixed ★★★★★ —
     see `design-reference/README.md`.
-  - **Cennik** — 129 zł/mies., "14 dni za darmo — karta wymagana, 0 zł przez okres próbny" —
-    card-upfront trial per Stakeholder decision 2026-08-09, see
-    `reviewpilot-backend/docs/ROADMAP.md` decisions log.
+  - **Cennik** — 39 zł netto/mies. + VAT (ticket 6.6, part B — supersedes the 129 zł/mies.
+    launch price, see `reviewpilot-backend/docs/ROADMAP.md`'s G3 revision row), "14 dni za
+    darmo — karta wymagana, 0 zł przez okres próbny" — card-upfront trial per Stakeholder
+    decision 2026-08-09.
   - **FAQ** — 4 questions, native `<details>`/`<summary>` accordion (no client JS needed); the
     card-upfront answer is kept byte-identical to `design-reference/index.html` (CR-1-correct).
   - **Final CTA** — new in 6.5, the closing band between FAQ and the footer.

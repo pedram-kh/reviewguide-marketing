@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 
 import "./globals.css";
+import { ConsentModeInit } from "@/components/consent-mode-init";
+import { CookieConsentBanner } from "@/components/cookie-consent-banner";
+import { Ga4Loader } from "@/components/ga4-loader";
 
 // next/font self-hosts + preloads the font (no render-blocking Google Fonts <link>), and
 // latin-ext is required — the base "latin" subset drops the Polish diacritics (ą ć ę ł ń ó ś ź ż)
@@ -23,6 +26,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: TITLE,
   description: DESCRIPTION,
+  // Ticket 6.6, part E — hreflang alternates; overridden by app/en/page.tsx's own `alternates`
+  // (Next merges page-level metadata over layout-level per key, canonical included).
+  alternates: {
+    canonical: "/",
+    languages: { pl: "/", en: "/en", "x-default": "/" },
+  },
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "16x16 32x32 48x48" },
@@ -51,7 +60,15 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="pl" className={plusJakartaSans.variable}>
-      <body>{children}</body>
+      <head>
+        {/* Ticket 6.6, part D — must run before any analytics tag could load. */}
+        <ConsentModeInit />
+      </head>
+      <body>
+        {children}
+        <CookieConsentBanner />
+        <Ga4Loader />
+      </body>
     </html>
   );
 }

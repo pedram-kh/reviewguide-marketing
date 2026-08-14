@@ -562,6 +562,13 @@ header.nav {
   color: var(--muted);
 }
 
+.ex-lang-note {
+  font-size: 0.78rem;
+  font-style: italic;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
 .review-block {
   background: var(--cream);
   border: 1px solid var(--line);
@@ -656,6 +663,12 @@ header.nav {
 .price-amount .per {
   color: var(--muted);
   font-weight: 600;
+}
+
+.price-fineprint {
+  color: var(--muted);
+  font-size: 0.82rem;
+  margin: 0 0 20px;
 }
 
 .trial-badge {
@@ -854,6 +867,323 @@ footer {
 .foot-copy {
   color: var(--muted);
   font-size: 0.92rem;
+}
+
+/* ---------- footer: legal row (ticket 6.6, part A) ---------- */
+.foot-legal {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.foot-legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.foot-legal-links a:hover {
+  color: var(--ink);
+}
+
+.foot-legal-link-btn {
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--muted);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.foot-legal-link-btn:hover {
+  color: var(--ink);
+}
+
+.foot-legal-company {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+/* ---------- legal document pages (ticket 6.6, part A) ---------- */
+.legal-page {
+  padding: 48px 0 100px;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.legal-breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+.legal-breadcrumb a:hover {
+  color: var(--ink);
+}
+
+.legal-page h1 {
+  font-size: clamp(1.7rem, 3.4vw, 2.3rem);
+  margin-bottom: 18px;
+}
+
+.legal-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  align-items: center;
+  background: var(--cream-2);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--gold-ink);
+}
+
+.legal-meta-item strong {
+  font-weight: 800;
+}
+
+.legal-translation-note {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--muted);
+  margin-bottom: 36px;
+}
+
+.legal-lang-toggle {
+  display: inline-flex;
+  gap: 4px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px;
+  margin-bottom: 28px;
+}
+
+.legal-lang-toggle button {
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  padding: 7px 16px;
+  border-radius: 999px;
+  border: none;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.legal-lang-toggle button[aria-pressed="true"] {
+  background: var(--ink);
+  color: #fff;
+}
+
+.legal-doc {
+  color: var(--ink-soft);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.legal-doc h2 {
+  font-size: 1.25rem;
+  color: var(--ink);
+  margin: 40px 0 14px;
+}
+
+.legal-doc h2:first-child {
+  margin-top: 0;
+}
+
+.legal-doc h3 {
+  font-size: 1.08rem;
+  color: var(--ink);
+  margin: 26px 0 10px;
+}
+
+.legal-doc p {
+  margin: 0 0 14px;
+}
+
+.legal-doc ol,
+.legal-doc ul {
+  margin: 0 0 14px;
+  padding-left: 22px;
+}
+
+.legal-doc li {
+  margin-bottom: 8px;
+}
+
+.legal-doc li > ol,
+.legal-doc li > ul {
+  margin-top: 8px;
+}
+
+.legal-doc strong {
+  color: var(--ink);
+}
+
+.legal-doc a {
+  color: var(--gold-ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.legal-doc hr {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 36px 0;
+}
+
+.legal-doc blockquote {
+  margin: 0 0 14px;
+  padding: 14px 18px;
+  border-left: 3px solid var(--gold-deep);
+  background: var(--cream-2);
+  border-radius: 0 12px 12px 0;
+}
+
+.legal-doc table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8px 0 24px;
+  font-size: 0.92rem;
+}
+
+.legal-doc th,
+.legal-doc td {
+  border: 1px solid var(--line);
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.legal-doc th {
+  background: var(--cream-2);
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.legal-doc-table-wrap {
+  overflow-x: auto;
+  margin: 8px 0 24px;
+}
+
+.legal-doc-table-wrap table {
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .legal-page {
+    padding: 32px 0 72px;
+  }
+}
+
+/* ---------- cookie consent banner (ticket 6.6, part D) ---------- */
+.cookie-overlay {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 200;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.cookie-banner {
+  width: 100%;
+  max-width: 720px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  padding: 24px 26px;
+}
+
+.cookie-banner-text {
+  color: var(--ink-soft);
+  font-size: 0.94rem;
+  margin-bottom: 18px;
+}
+
+.cookie-banner-text a {
+  color: var(--gold-ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.cookie-banner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+/* Equal prominence (ticket): Accept/Reject/Settings are the same btn size/weight — only the
+   background differs, same as everywhere else primary vs. ghost buttons already coexist. */
+.cookie-banner-actions .btn {
+  flex: 0 0 auto;
+}
+
+.cookie-settings-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.cookie-settings-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  background: var(--cream-2);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.cookie-settings-row-title {
+  font-weight: 700;
+  color: var(--ink);
+  font-size: 0.94rem;
+  margin-bottom: 4px;
+}
+
+.cookie-settings-row-desc {
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.cookie-settings-row input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  accent-color: var(--gold-deep);
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .cookie-banner-actions {
+    justify-content: stretch;
+  }
+
+  .cookie-banner-actions .btn {
+    flex: 1 1 auto;
+  }
 }
 
 /* Reveal is a progressive enhancement: only hidden when JS is active (.js on <html>, toggled by
