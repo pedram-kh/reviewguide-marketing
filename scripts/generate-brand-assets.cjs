@@ -9,9 +9,13 @@
  *   - icon-512.png           (full-detail render, padded onto the dark bg)
  *   - apple-touch-icon.png   (180x180, full-detail render on the dark bg —
  *                             iOS fills transparency with white otherwise)
- *   - og-image.png           (1200x630, icon + wordmark via next/og's
- *                             ImageResponse so the text uses the exact same
- *                             Geist font the landing renders with)
+ *   - og-image.png           (1200x630, light cream/gold theme matching the
+ *                             ticket-6.5 landing redesign — see ticket 6.5a.
+ *                             Rendered via next/og's ImageResponse with the
+ *                             site's actual Plus Jakarta Sans, bundled as TTF
+ *                             under scripts/fonts/ so this stays offline-
+ *                             reproducible instead of depending on a Google
+ *                             Fonts fetch at generation time.)
  *   - favicon-preview-*.png  (16px renders, upscaled 8x nearest-neighbor so
  *                             they're actually inspectable — deleted once
  *                             reviewed, not shipped)
@@ -19,6 +23,11 @@
  * Also writes public/brand/icon-flat-silhouette.png (1024x1024) — the
  * simplified variant, kept around as the documented source of favicon.ico
  * rather than only living inside the .ico container.
+ *
+ * favicon.ico/icon-192/icon-512/apple-touch-icon intentionally still pad onto
+ * the ORIGINAL dark background (BG/AMBER/BUBBLE_DARK below) — ticket 6.5a
+ * only asked to re-theme the OG image, not the app icons, and re-running this
+ * script regenerates those unchanged (same source, same consts, same bytes).
  */
 const fs = require("fs");
 const path = require("path");
@@ -30,10 +39,19 @@ const ROOT = path.join(__dirname, "..");
 const SOURCE = path.join(ROOT, "public/brand/icon-source.png");
 const OUT = path.join(ROOT, "public");
 const BRAND_DIR = path.join(ROOT, "public/brand");
+const FONTS_DIR = path.join(__dirname, "fonts");
 
-const BG = "#0A0806"; // matches the landing's near-black background
-const AMBER = "#ffb069"; // matches the existing gradient end color (app/icon.tsx)
+const BG = "#0A0806"; // matches the OLD landing's near-black background — favicon/app icons only
+const AMBER = "#ffb069"; // matches the existing gradient end color (app/icon.tsx) — favicon/app icons only
 const BUBBLE_DARK = "#241a12"; // sampled dominant dark-bronze tone from icon-source.png
+
+// og-image.png only (ticket 6.5a) — the current light theme's actual tokens, copied from
+// app/globals.css's :root so this doesn't quietly drift from the live palette.
+const OG_CREAM_GRADIENT = "linear-gradient(135deg, #fff4e0 0%, #fff9f0 55%, #eefaf3 100%)";
+const OG_GOLD = "#ffb627";
+const OG_GOLD_DEEP = "#ff9e00";
+const OG_INK = "#1b2330";
+const OG_INK_SOFT = "#4a5568";
 
 if (!fs.existsSync(SOURCE)) {
   console.error(`FATAL: ${SOURCE} does not exist. Stakeholder was supposed to place it there.`);
@@ -122,15 +140,22 @@ async function main() {
   await paddedIcon(512, "icon-512.png");
   await paddedIcon(180, "apple-touch-icon.png");
 
-  // 5) OG image (1200x630) — icon at ~400px centered-left, "ReviewGuide"
-  // wordmark to its right, rendered via next/og's ImageResponse (satori)
-  // with the exact Geist font the landing itself uses (bundled ttf, not a
-  // system-font guess), a subtle amber glow behind the icon, on the
-  // landing's own near-black background.
-  const geistFont = fs.readFileSync(
-    path.join(ROOT, "node_modules/next/dist/compiled/@vercel/og/Geist-Regular.ttf")
-  );
-  const iconDataUrl = `data:image/png;base64,${fs.readFileSync(SOURCE).toString("base64")}`;
+  // 5) OG image (1200x630) — ticket 6.5a re-theme: the landing is now a light
+  // cream/gold design (ticket 6.5), so the OG card must match rather than
+  // still preview a dark card that no longer matches what the link unfurls
+  // into. Logo mark + wordmark composition mirrors components/logo.tsx's
+  // `.logo-mark` (same sparkle glyph, same gold gradient, scaled up) on the
+  // site's own cream gradient background, set in Plus Jakarta Sans — the
+  // landing's actual font (bundled as TTF under scripts/fonts/, downloaded
+  // once from Google Fonts; see scripts/fonts/README.md) instead of Geist,
+  // which the landing hasn't used since the 6.5 redesign.
+  const jakartaBold = fs.readFileSync(path.join(FONTS_DIR, "PlusJakartaSans-700.ttf"));
+  const jakartaMedium = fs.readFileSync(path.join(FONTS_DIR, "PlusJakartaSans-500.ttf"));
+  // Same sparkle path as components/icons.tsx's SparkleIcon, inlined as a data-URI
+  // SVG (satori/@vercel-og can't render arbitrary JSX icon components directly).
+  const sparkleSvg =
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2l2.9 6.1 6.6.9-4.8 4.6 1.2 6.6L12 17.9 6.1 20.2l1.2-6.6L2.5 9l6.6-.9L12 2z" fill="#ffffff"/></svg>';
+  const sparkleDataUrl = `data:image/svg+xml;base64,${Buffer.from(sparkleSvg).toString("base64")}`;
 
   const ogImage = new ImageResponse(
     {
@@ -140,74 +165,90 @@ async function main() {
           width: "100%",
           height: "100%",
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
-          background: BG,
-          padding: "0 60px",
+          justifyContent: "center",
+          background: OG_CREAM_GRADIENT,
           position: "relative",
         },
         children: [
           {
             type: "div",
             props: {
+              // Same accent-bar treatment as .price-card::before / .final-cta::before.
               style: {
                 position: "absolute",
-                left: 40,
-                top: "50%",
-                width: 560,
-                height: 560,
-                transform: "translateY(-50%)",
-                borderRadius: "50%",
-                background:
-                  "radial-gradient(circle, rgba(255,176,105,0.35) 0%, rgba(255,176,105,0) 70%)",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: 14,
+                background: `linear-gradient(90deg, ${OG_GOLD}, ${OG_GOLD_DEEP})`,
                 display: "flex",
               },
-            },
-          },
-          {
-            type: "img",
-            props: {
-              src: iconDataUrl,
-              width: 400,
-              height: 420,
-              style: { objectFit: "contain", flexShrink: 0 },
             },
           },
           {
             type: "div",
             props: {
               style: {
+                position: "absolute",
+                right: -80,
+                top: "50%",
+                width: 620,
+                height: 620,
+                transform: "translateY(-50%)",
+                borderRadius: "50%",
+                background: "radial-gradient(circle, rgba(255,182,39,0.25) 0%, rgba(255,182,39,0) 70%)",
                 display: "flex",
-                flexDirection: "column",
-                marginLeft: 56,
-                maxWidth: 660,
               },
-              children: [
-                {
-                  type: "div",
-                  props: {
-                    style: {
-                      fontSize: 96,
-                      fontWeight: 700,
-                      color: "#ffffff",
-                      fontFamily: "Geist",
-                      letterSpacing: -2,
-                    },
-                    children: "ReviewGuide",
-                  },
-                },
-                {
-                  type: "div",
-                  props: {
-                    style: {
-                      marginTop: 20,
-                      fontSize: 28,
-                      color: "#c9a988",
-                      fontFamily: "Geist",
-                    },
-                    children: "Automatyczne odpowiedzi na opinie Google",
-                  },
-                },
-              ],
+            },
+          },
+          {
+            type: "div",
+            props: {
+              style: {
+                width: 160,
+                height: 160,
+                borderRadius: 50,
+                background: `linear-gradient(135deg, ${OG_GOLD} 0%, ${OG_GOLD_DEEP} 100%)`,
+                boxShadow: "0 24px 60px -20px rgba(255,158,0,0.55)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              },
+              children: {
+                type: "img",
+                props: { src: sparkleDataUrl, width: 84, height: 84 },
+              },
+            },
+          },
+          {
+            type: "div",
+            props: {
+              style: {
+                marginTop: 36,
+                fontSize: 96,
+                fontWeight: 700,
+                color: OG_INK,
+                fontFamily: "Plus Jakarta Sans",
+                letterSpacing: -2,
+                display: "flex",
+              },
+              children: "ReviewGuide",
+            },
+          },
+          {
+            type: "div",
+            props: {
+              style: {
+                marginTop: 22,
+                fontSize: 30,
+                fontWeight: 500,
+                color: OG_INK_SOFT,
+                fontFamily: "Plus Jakarta Sans",
+                display: "flex",
+              },
+              children: "Automatyczne odpowiedzi na opinie Google",
             },
           },
         ],
@@ -216,7 +257,10 @@ async function main() {
     {
       width: 1200,
       height: 630,
-      fonts: [{ name: "Geist", data: geistFont, weight: 700, style: "normal" }],
+      fonts: [
+        { name: "Plus Jakarta Sans", data: jakartaBold, weight: 700, style: "normal" },
+        { name: "Plus Jakarta Sans", data: jakartaMedium, weight: 500, style: "normal" },
+      ],
     }
   );
   const ogArrayBuffer = await ogImage.arrayBuffer();
@@ -225,7 +269,7 @@ async function main() {
   console.log("Brand assets generated:");
   console.log("  public/favicon.ico (16/32/48, flat silhouette)");
   console.log("  public/icon-192.png, icon-512.png, apple-touch-icon.png (full detail)");
-  console.log("  public/og-image.png (1200x630)");
+  console.log("  public/og-image.png (1200x630, light cream/gold theme — ticket 6.5a)");
   console.log("  public/brand/icon-flat-silhouette.png (flat master)");
   console.log("  public/_preview-detailed-16px-upscaled.png, _preview-flat-16px-upscaled.png (review only)");
 }

@@ -18,6 +18,10 @@ cream/gold/green palette, Plus Jakarta Sans, and the reveal-on-scroll fade are a
 1:1 (see `app/globals.css`'s top comment for the exact list of mechanical differences, e.g. the
 font loads via `next/font` instead of the reference's Google Fonts `<link>`).
 
+**One sanctioned content divergence (ticket 6.5a) — see `design-reference/README.md`:** the
+"Zobacz sam" example cards render each review's actual star rating instead of the reference's
+hardcoded `★★★★★`. Don't "fix" this back when diffing against the reference.
+
 ## What's here (ticket 6.5 redesign; supersedes ticket 4.1's dark illuminated-hero version)
 
 - `/` — single-page landing site, entirely in Polish:
@@ -29,7 +33,9 @@ font loads via `next/font` instead of the reference's Google Fonts `<link>`).
   - **Zobacz sam** (`components/demo-section.tsx`) — 2 real review→response pairs from
     `docs/review/generation_batch_2026-08-05_v1.2.md` (restaurant name *and* address redacted —
     see the comment in that file). Wording is unchanged since ticket 4.1; only the surrounding
-    visual style changed in 6.5.
+    visual style changed in 6.5. Star badges show the review's actual rating (both are 2-star
+    complaints → ★★☆☆☆), a deliberate ticket-6.5a divergence from the reference's fixed ★★★★★ —
+    see `design-reference/README.md`.
   - **Cennik** — 129 zł/mies., "14 dni za darmo — karta wymagana, 0 zł przez okres próbny" —
     card-upfront trial per Stakeholder decision 2026-08-09, see
     `reviewpilot-backend/docs/ROADMAP.md` decisions log.
@@ -148,10 +154,14 @@ re-run with `node scripts/generate-brand-assets.cjs` any time `icon-source.png` 
 - `public/icon-192.png`, `icon-512.png`, `apple-touch-icon.png` (180×180) — full-detail renders of
   `icon-source.png`, padded onto the landing's `#0A0806` background (not left transparent —
   iOS fills transparent apple-touch-icons with white, which would look wrong against the dark UI).
-- `public/og-image.png` (1200×630) — icon + "ReviewGuide" wordmark, rendered via `next/og`'s
-  `ImageResponse` (Satori) using the exact bundled Geist font so the wordmark matches the landing's
-  own type, not a system-font approximation. `#0A0806` background, subtle amber radial glow behind
-  the icon.
+- `public/og-image.png` (1200×630) — **re-themed in ticket 6.5a** to match the light cream/gold
+  landing: cream gradient background, the same gold-gradient `.logo-mark` sparkle mark and
+  "ReviewGuide" wordmark as the live nav, set in Plus Jakarta Sans (bundled as TTF under
+  `scripts/fonts/`, see that folder's README — `next/font/google` only produces hashed woff2 for
+  browser use, not a plain-path TTF a Node script can read). Rendered via `next/og`'s
+  `ImageResponse` (Satori), same technique as before, just re-themed. Favicon/`icon-*.png`/
+  `apple-touch-icon.png` intentionally still pad onto the **original** `#0A0806` dark background —
+  ticket 6.5a only asked to re-theme the OG image, not the app icons.
 
 All wired via the Next.js Metadata API in `app/layout.tsx` (`icons`, `openGraph.images`,
 `twitter.images`) rather than the old `app/icon.tsx`/`app/opengraph-image.tsx` file-convention
@@ -159,11 +169,11 @@ placeholders (removed — they only ever rendered a generic "R" glyph since no r
 The same generated set is copied into `reviewguide-app/public/brand/` so `/signup`, `/login`, and
 `/app` share the identical favicon/apple-touch-icon.
 
-**Disclosed, not fixed by ticket 6.5:** these assets were carried over unchanged per that ticket's
-explicit "preserve OG tags + favicon" instruction. `og-image.png`'s `#0A0806` dark background was
-designed to match the old dark hero and now sits oddly against the new light-cream page it's
-advertising when shared on social — cosmetic only (nothing on the actual page uses this asset as
-a background), but worth a follow-up ticket to regenerate it against the new palette.
+**Ticket 6.5 → 6.5a history:** ticket 6.5 explicitly said "preserve OG tags + favicon", so
+`og-image.png` was carried over unchanged with its old `#0A0806` dark background — disclosed at
+the time as sitting oddly against the new light-cream page it advertises when shared on social.
+PM/Stakeholder follow-up ticket 6.5a asked for exactly that regeneration; done above. Favicon and
+app icons were out of scope for 6.5a and remain the original dark-background renders.
 
 ## Relationship to the other two repos
 
