@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 
 import "./globals.css";
@@ -21,6 +21,15 @@ const SITE_URL = "https://reviewguide.eu";
 const TITLE = "ReviewGuide — profesjonalna odpowiedź na każdą opinię Google";
 const DESCRIPTION =
   "ReviewGuide sprawdza opinie Twojej restauracji na Google co 2 godziny i przygotowuje spokojną, konkretną odpowiedź — zanim zdążysz się zdenerwować.";
+
+// Ticket 6.6b — `viewport-fit=cover` is required for `env(safe-area-inset-*)` (globals.css's
+// `.wrap`) to resolve to anything but 0 on iOS Safari; without it the page always renders inside
+// the safe area already, so the CSS additions there would be dead code on every device.
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

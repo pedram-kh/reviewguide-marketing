@@ -16,6 +16,9 @@ const COPY = {
     ],
     login: "Zaloguj się",
     trial: "Wypróbuj za darmo",
+    // Ticket 6.6b — mobile-only (see globals.css's 480px breakpoint): the full label's own
+    // padding/font-size still didn't leave enough room for the logo + lang-switch pill at 360px.
+    trialShort: "Wypróbuj",
   },
   en: {
     links: [
@@ -26,6 +29,7 @@ const COPY = {
     ],
     login: "Log in",
     trial: "Try for free",
+    trialShort: "Try free",
   },
 } as const;
 
@@ -42,6 +46,11 @@ const COPY = {
  * link. The EN→PL switch always shows: this component also renders on the already-live EN legal
  * pages (/terms, /privacy-policy, ...), which are unrelated to the landing-copy approval gate,
  * and it always points back to "/", which is always live.
+ *
+ * Ticket 6.6b — the trial CTA renders both a full and a short label (globals.css hides one or the
+ * other by width, ≤480px); below that width neither the full label's own padding nor the lang
+ * pill left enough room to avoid the CTA silently clipping off the right edge of the viewport
+ * (`body { overflow-x: hidden }` in globals.css hid it as a layout bug rather than a scrollbar).
  */
 export function SiteNav({ lang = "pl" }: { lang?: Lang }) {
   const copy = COPY[lang];
@@ -69,7 +78,10 @@ export function SiteNav({ lang = "pl" }: { lang?: Lang }) {
           <Button href={`${APP_URL}/login`} variant="ghost">
             {copy.login}
           </Button>
-          <Button href={`${APP_URL}/signup`}>{copy.trial}</Button>
+          <Button href={`${APP_URL}/signup`}>
+            <span className="cta-label-full">{copy.trial}</span>
+            <span className="cta-label-short">{copy.trialShort}</span>
+          </Button>
         </div>
       </div>
     </header>

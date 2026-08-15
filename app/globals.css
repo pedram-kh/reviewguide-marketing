@@ -60,7 +60,12 @@ a {
 .wrap {
   max-width: var(--wrap);
   margin: 0 auto;
-  padding: 0 24px;
+  /* Ticket 6.6b — additive, not a replacement: env(safe-area-inset-*) is 0 on every device unless
+     the viewport meta declares viewport-fit=cover (see app/layout.tsx's `viewport` export), so on
+     ordinary devices/browsers this resolves to plain 24px, unchanged. On a notched/rounded-corner
+     iPhone in landscape, it keeps nav/footer content clear of the curved edge instead of running
+     the base 24px right up against it. */
+  padding: 0 max(24px, env(safe-area-inset-right)) 0 max(24px, env(safe-area-inset-left));
 }
 
 section {
@@ -159,6 +164,7 @@ header.nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   height: 74px;
 }
 
@@ -205,6 +211,40 @@ header.nav {
   gap: 14px;
 }
 
+/* Ticket 6.6b (mobile nav fix) — this pill had no rules at all before: an unstyled <a> inheriting
+   plain body text, which is why it rendered as bare "EN" text fused visually onto the wordmark
+   rather than a distinct control. Mirrors .foot-cookie-btn's pill treatment for a consistent
+   "small secondary control" language across the header and footer. */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  min-width: 32px;
+  padding: 0 11px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  flex-shrink: 0;
+  transition:
+    color 0.15s,
+    border-color 0.15s,
+    background 0.15s;
+}
+
+.lang-switch:hover {
+  color: var(--ink);
+  border-color: var(--gold-deep);
+  background: var(--cream-2);
+}
+
+.cta-label-short {
+  display: none;
+}
+
 @media (max-width: 860px) {
   .nav-links {
     display: none;
@@ -212,6 +252,36 @@ header.nav {
 
   .nav-cta .btn-ghost {
     display: none;
+  }
+}
+
+/* Ticket 6.6b — below ~480px the full-size CTA ("Wypróbuj za darmo" + its 15px/26px padding)
+   plus the logo and lang-switch pill no longer fit one row; body has `overflow-x: hidden` (this
+   file, above), so the overflow wasn't a scrollbar, it was the CTA silently getting clipped at the
+   viewport edge. Both a shorter label AND smaller button chrome are applied together — measured
+   against real renders at 360/390/430px, neither alone left enough margin at the narrowest of the
+   three. */
+@media (max-width: 480px) {
+  .nav-inner {
+    gap: 8px;
+  }
+
+  .nav-cta {
+    gap: 8px;
+  }
+
+  .nav-cta .btn-primary {
+    padding: 10px 14px;
+    font-size: 0.86rem;
+    border-radius: 12px;
+  }
+
+  .cta-label-full {
+    display: none;
+  }
+
+  .cta-label-short {
+    display: inline;
   }
 }
 

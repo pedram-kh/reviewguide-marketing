@@ -43,7 +43,8 @@ hardcoded `★★★★★`. Don't "fix" this back when diffing against the refe
   - **FAQ** — 4 questions, native `<details>`/`<summary>` accordion (no client JS needed); the
     card-upfront answer is kept byte-identical to `design-reference/index.html` (CR-1-correct).
   - **Final CTA** — new in 6.5, the closing band between FAQ and the footer.
-  - Footer with nav anchors + `anna@reviewguide.eu` contact.
+  - Footer with nav anchors + `contact@reviewguide.eu` contact (ticket 6.6b — was `anna@`, the
+    outreach persona's inbox; PM decision to match the legal documents' official contact address).
 - Reveal-on-scroll (`components/reveal-on-scroll.tsx`) is a small client component using
   `IntersectionObserver` — a progressive enhancement only (content stays visible if JS never
   runs), and does nothing when `prefers-reduced-motion` is set (handled in CSS).

@@ -61,6 +61,13 @@ const COPY = {
  * Layout diverges deliberately from design-reference/index.html's single-row footer; see that
  * folder's README for the rationale (the reference row predates the legal/company/cookie content
  * this footer now has to carry, and colours every item at a contrast ratio that fails WCAG AA).
+ *
+ * Ticket 6.6b — contact email is contact@, not anna@: PM decision for consistency with the legal
+ * documents, which already name contact@ as the official privacy/complaints address. anna@ is the
+ * outreach persona's inbox (backend REPLY_ADDRESS, docs/LOGIC.md §7b) and must not double as the
+ * site's public contact; design-reference/index.html still shows anna@ (pristine, per the same
+ * "keep the reference untouched" convention as every other sanctioned divergence — see
+ * design-reference/README.md).
  */
 export function SiteFooter({ lang = "pl" }: { lang?: Lang }) {
   const copy = COPY[lang];
@@ -90,9 +97,9 @@ export function SiteFooter({ lang = "pl" }: { lang?: Lang }) {
             <h2 className="foot-group-title">{copy.contactTitle}</h2>
             <ul>
               <li>
-                <a className="foot-mail" href="mailto:anna@reviewguide.eu">
+                <a className="foot-mail" href="mailto:contact@reviewguide.eu">
                   <MailIcon size={15} />
-                  anna@reviewguide.eu
+                  contact@reviewguide.eu
                 </a>
               </li>
             </ul>

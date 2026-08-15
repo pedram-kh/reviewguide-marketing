@@ -59,6 +59,16 @@ shouldn't be reverted to match the reference under any circumstances:
   links did nothing there. Both now build root-relative hrefs via `lib/en-landing.ts`'s
   `landingHref(lang)`, which still smooth-scrolls on the landing itself.
 
+### Footer contact email (PM decision, ticket 6.6b)
+
+`index.html` and its own footer markup (quoted above) both show `anna@reviewguide.eu`. The live
+footer now shows **`contact@reviewguide.eu`** instead — PM decision for consistency with the legal
+documents (`content/legal/{pl,en}/*.md`), which already name `contact@` as the official
+privacy/complaints address. `anna@` is the outreach persona's own inbox (backend
+`REPLY_ADDRESS`, `docs/LOGIC.md` §7b) and must not double as the site's public contact channel.
+`index.html` is left showing `anna@` unchanged, per this file's own "keep the reference pristine"
+convention.
+
 ## Non-divergences worth noting
 
 `og-image.png` (in `public/`, not here) was re-themed in ticket 6.5a to match this reference's
