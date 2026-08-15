@@ -177,15 +177,14 @@ header.nav {
   letter-spacing: -0.02em;
 }
 
+/* Ticket 6.7 — .logo-mark is now an <img> (public/brand/mark.png), which already contains its own
+   rounded shape, gradient, and shadow baked into the pixels; this is a plain sizing wrapper, not a
+   drawn shape, unlike the CSS gradient box + inline SVG glyph it replaced. */
 .logo-mark {
   width: 38px;
   height: 38px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-deep) 100%);
-  display: grid;
-  place-items: center;
-  color: #fff;
-  box-shadow: 0 8px 18px -8px rgba(255, 158, 0, 0.9);
+  display: block;
+  flex-shrink: 0;
 }
 
 .nav-links {

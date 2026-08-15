@@ -142,40 +142,59 @@ Note: `mail.reviewguide.eu` (Postmark's sending domain, ticket 4.2) uses separat
 (DKIM + Return-Path TXT/CNAME) in the same GoDaddy zone — the two are independent and won't
 conflict, since one is the apex/www host and the other is the `mail.` subdomain.
 
-## Brand assets (ticket 4.6)
+## Brand assets (ticket 4.6, mark replaced in ticket 6.7)
 
-`public/brand/icon-source.png` (Stakeholder-provided, 975×1024, transparent bg) is the single
-source of truth for the mark. `scripts/generate-brand-assets.cjs` derives everything else from it —
-re-run with `node scripts/generate-brand-assets.cjs` any time `icon-source.png` changes:
+`public/brand/icon-source.png` (Stakeholder-provided gold-star mark, 1023×1024, transparent bg —
+ticket 6.7 replaced the original ticket-4.6 mark) is the single source of truth for the mark.
+`scripts/generate-brand-assets.cjs` derives everything else from it — re-run with
+`node scripts/generate-brand-assets.cjs` any time `icon-source.png` changes:
 
-- `public/favicon.ico` (16/32/48) — a **flat-silhouette** variant (dark bubble + solid amber star,
-  hand-authored SVG in the script), not the photoreal source. At true 16px the photoreal metallic
-  render turns into an illegible muddy blob (checked by rendering both at 16px and upscaling
-  8x nearest-neighbor for review); the flat version reads clearly as a star. `public/brand/icon-flat-silhouette.png`
-  keeps the 1024px flat master as a standalone asset.
-- `public/icon-192.png`, `icon-512.png`, `apple-touch-icon.png` (180×180) — full-detail renders of
-  `icon-source.png`, padded onto the landing's `#0A0806` background (not left transparent —
-  iOS fills transparent apple-touch-icons with white, which would look wrong against the dark UI).
-- `public/og-image.png` (1200×630) — **re-themed in ticket 6.5a** to match the light cream/gold
-  landing: cream gradient background, the same gold-gradient `.logo-mark` sparkle mark and
-  "ReviewGuide" wordmark as the live nav, set in Plus Jakarta Sans (bundled as TTF under
-  `scripts/fonts/`, see that folder's README — `next/font/google` only produces hashed woff2 for
-  browser use, not a plain-path TTF a Node script can read). Rendered via `next/og`'s
-  `ImageResponse` (Satori), same technique as before, just re-themed. Favicon/`icon-*.png`/
-  `apple-touch-icon.png` intentionally still pad onto the **original** `#0A0806` dark background —
-  ticket 6.5a only asked to re-theme the OG image, not the app icons.
+- `public/favicon.ico` (16/32/48) — a **direct resize**, alpha preserved. Unlike the original 4.6
+  mark (a "photoreal" render with a large transparent margin around a small centered glyph, which
+  turned to mush at 16px and needed a hand-authored flat-silhouette fallback), this source is
+  already a complete, self-contained icon tile filling ~98% of its own canvas and stays legible at
+  16px on a plain resize (checked by rendering + upscaling 8x nearest-neighbor for review, ticket
+  6.7's report) — no simplified variant needed this time. `public/brand/icon-flat-silhouette.png`
+  (the old mark's fallback) was deleted rather than regenerated; it had no equivalent under the new
+  source.
+- `public/icon-192.png`, `icon-512.png`, `apple-touch-icon.png` (180×180) — direct resizes of
+  `icon-source.png`, composited onto **opaque white** (not left transparent — iOS fills transparent
+  apple-touch-icons with white anyway; compositing ourselves makes the result identical across
+  platforms instead of depending on each one's own handling). Ticket 6.7 also dropped the old
+  0.82-scale-then-pad-onto-`#0A0806` treatment — that was specifically to keep a small glyph from
+  looking lost on a large dark background; the new source needs no such padding.
+- `public/brand/mark.png` (152×152, **new in ticket 6.7**) — transparent background, direct resize,
+  no white compositing. Used wherever the mark renders against a *known* site background rather
+  than an arbitrary platform one: the nav/footer `.logo-mark` (`components/logo.tsx`) and the OG
+  image below. Pasting the white-padded `icon-192.png` onto the cream nav/footer/OG background
+  would show a faint seam; the transparent version doesn't.
+- `public/og-image.png` (1200×630) — light cream/gold theme from ticket 6.5a, unchanged this round
+  except the mark: previously a drawn gold gradient box + inline sparkle SVG glyph (the old mark
+  had no complete "icon" of its own to embed), now the new mark image embedded directly as a data
+  URI (it already contains its own rounded shape/gradient/shadow, so the drawn box was dropped
+  rather than nested around it). Still rendered via `next/og`'s `ImageResponse` (Satori) with the
+  bundled Plus Jakarta Sans TTFs under `scripts/fonts/`.
 
 All wired via the Next.js Metadata API in `app/layout.tsx` (`icons`, `openGraph.images`,
 `twitter.images`) rather than the old `app/icon.tsx`/`app/opengraph-image.tsx` file-convention
 placeholders (removed — they only ever rendered a generic "R" glyph since no real mark existed yet).
-The same generated set is copied into `reviewguide-app/public/brand/` so `/signup`, `/login`, and
-`/app` share the identical favicon/apple-touch-icon.
+Icon URLs carry a `?v=6.7` cache-busting query — browsers cache favicons unusually aggressively, so
+a same-path deploy risks a returning visitor keeping the old mark in their tab indefinitely; bump
+the version string again for any future mark change. The same generated set (`icon-source.png`,
+`mark.png`, `icon-192.png`, `icon-512.png`, `apple-touch-icon.png`, `favicon.ico`) is copied into
+`reviewguide-app/public/`+`public/brand/` (and `app/favicon.ico`) so `/signup`, `/login`, `/app`,
+and `/admin` share the identical mark — with one deliberate exception: the customer-app header
+(`app/(customer)/layout.tsx`) renders `/brand/mark.png` (transparent), not `/icon-192.png` (white),
+because that header sits on the dark theme (`bg-black`) — a white-padded icon there would show as a
+visible white square instead of blending in, the same reasoning as the nav/footer above.
 
-**Ticket 6.5 → 6.5a history:** ticket 6.5 explicitly said "preserve OG tags + favicon", so
+**Ticket 6.5 → 6.5a → 6.7 history:** ticket 6.5 explicitly said "preserve OG tags + favicon", so
 `og-image.png` was carried over unchanged with its old `#0A0806` dark background — disclosed at
 the time as sitting oddly against the new light-cream page it advertises when shared on social.
-PM/Stakeholder follow-up ticket 6.5a asked for exactly that regeneration; done above. Favicon and
-app icons were out of scope for 6.5a and remain the original dark-background renders.
+Ticket 6.5a re-themed the OG image only (favicon/app icons stayed dark-background, out of scope
+for that ticket). Ticket 6.7 is the brand-mark replacement itself — every rendered surface, not
+just the OG image — see `docs/PROGRESS.md`'s 6.7 row (backend repo) for the full inventory,
+quality-gate, and legibility-check evidence.
 
 ## Relationship to the other two repos
 

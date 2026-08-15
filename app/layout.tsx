@@ -41,13 +41,18 @@ export const metadata: Metadata = {
     canonical: "/",
     languages: { pl: "/", en: "/en", "x-default": "/" },
   },
+  // Ticket 6.7 — `?v=6.7` cache-busts the brand-mark replacement. Browsers cache favicons far more
+  // aggressively than ordinary assets (sometimes ignoring normal cache-control entirely), so a
+  // same-path deploy risks a returning visitor's tab keeping the old mark indefinitely; the query
+  // string forces every icon URL to be treated as new. Bump this string again for any future mark
+  // change, same convention.
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "16x16 32x32 48x48" },
-      { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
-      { url: "/icon-512.png", type: "image/png", sizes: "512x512" },
+      { url: "/favicon.ico?v=6.7", sizes: "16x16 32x32 48x48" },
+      { url: "/icon-192.png?v=6.7", type: "image/png", sizes: "192x192" },
+      { url: "/icon-512.png?v=6.7", type: "image/png", sizes: "512x512" },
     ],
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+    apple: [{ url: "/apple-touch-icon.png?v=6.7", sizes: "180x180" }],
   },
   openGraph: {
     title: TITLE,

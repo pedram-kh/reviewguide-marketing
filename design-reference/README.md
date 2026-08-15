@@ -69,6 +69,26 @@ privacy/complaints address. `anna@` is the outreach persona's own inbox (backend
 `index.html` is left showing `anna@` unchanged, per this file's own "keep the reference pristine"
 convention.
 
+### Brand mark (PM pre-sanctioned, ticket 6.7)
+
+`index.html`'s nav/footer `.logo-mark` still draws the **old** mark inline:
+
+```html
+<span class="logo-mark">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.9 6.1 6.6.9-4.8 4.6 1.2 6.6L12 17.9 6.1 20.2l1.2-6.6L2.5 9l6.6-.9L12 2z" fill="currentColor"/></svg>
+</span>
+```
+
+— a small 4-point sparkle glyph on a CSS-drawn gold gradient box. The live site now renders the
+Stakeholder's new mark (`public/brand/icon-source.png`, a self-contained gold rounded-square icon
+with an embossed 5-point star) everywhere the brand appears: nav/footer `.logo-mark`
+(`components/logo.tsx`, now an `<img>` rather than a CSS box + inline SVG), all favicon/app-icon
+sizes, the OG image, and both app-repo (`reviewguide-app`) surfaces that show a mark. Ticket 6.7
+pre-sanctioned this as "brand-mark superseded" rather than a pixel-fidelity bug — `index.html` is
+left showing the old mark unchanged, per this file's own "keep the reference pristine" convention.
+Full inventory, the source-quality gate (dimensions/transparency), and the 16px/32px legibility
+check are in `docs/PROGRESS.md`'s 6.7 row (backend repo).
+
 ## Non-divergences worth noting
 
 `og-image.png` (in `public/`, not here) was re-themed in ticket 6.5a to match this reference's
