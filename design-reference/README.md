@@ -27,7 +27,7 @@ reference itself already uses elsewhere for a 2-star card (the hero's floating "
 
 Implementation: `components/demo-section.tsx`'s `stars(rating)` helper.
 
-### Footer layout (footer redesign, pending PM sign-off)
+### Footer layout (footer redesign) — SIGNED OFF (PM, 2026-08-15)
 
 `index.html`'s footer is a single centred row — logo, three section anchors + the contact address,
 and a copyright — all coloured `var(--muted)`:
