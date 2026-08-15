@@ -27,6 +27,38 @@ reference itself already uses elsewhere for a 2-star card (the hero's floating "
 
 Implementation: `components/demo-section.tsx`'s `stars(rating)` helper.
 
+### Footer layout (footer redesign, pending PM sign-off)
+
+`index.html`'s footer is a single centred row — logo, three section anchors + the contact address,
+and a copyright — all coloured `var(--muted)`:
+
+```html
+<footer>
+  <div class="wrap foot-inner">
+    <a class="logo" href="#top">…</a>
+    <div class="foot-links">…</div>
+    <div class="foot-copy">© 2026 ReviewGuide</div>
+  </div>
+</footer>
+```
+
+That row predates the content ticket 6.6 then had to add to it (four legal documents, the cookie
+settings control, and the statutory company/registration block), and appending them produced a flat
+pile of a dozen near-identically styled small links. The live footer is therefore restructured into
+labelled groups (Produkt / Kontakt / Dokumenty) plus a bottom bar for the registration data —
+`components/site-footer.tsx`, styles under `globals.css`'s "footer" section.
+
+Two accessibility/correctness points are folded into the same change, and are the part that
+shouldn't be reverted to match the reference under any circumstances:
+
+- **Contrast.** `var(--muted)` (`#7b8698`) is **3.68:1** on white, below WCAG AA's 4.5:1 for text at
+  the 0.82–0.94rem sizes the footer uses. Everything in the footer is now `var(--ink-soft)`
+  (7.53:1) or darker; `--muted` is untouched everywhere else on the site.
+- **Dead anchors.** The reference is a single page, so its bare `href="#jak"` / `href="#top"` always
+  resolve. The nav and footer also render on the seven legal routes, which mount no such ids — those
+  links did nothing there. Both now build root-relative hrefs via `lib/en-landing.ts`'s
+  `landingHref(lang)`, which still smooth-scrolls on the landing itself.
+
 ## Non-divergences worth noting
 
 `og-image.png` (in `public/`, not here) was re-themed in ticket 6.5a to match this reference's

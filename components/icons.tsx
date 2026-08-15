@@ -122,3 +122,42 @@ export function ArrowDownIcon({ size = 16, className }: IconProps) {
     </svg>
   );
 }
+
+/* Not in the reference's icon set — added for the footer redesign's Contact group and cookie
+   button, drawn to the same 24-box / 2px-stroke conventions as the icons above. */
+
+export function MailIcon({ size = 16, className }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      className={className}
+      aria-hidden="true"
+    >
+      <rect x="2.5" y="4.5" width="19" height="15" rx="2.5" />
+      <path d="M3 7l9 6 9-6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function CookieIcon({ size = 16, className }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M12 3a9 9 0 109 9 4.2 4.2 0 01-5-5 4.2 4.2 0 01-4-4z" strokeLinejoin="round" />
+      <path d="M9 10h.01M13 14h.01M8.5 15h.01" strokeLinecap="round" strokeWidth={2.6} />
+    </svg>
+  );
+}

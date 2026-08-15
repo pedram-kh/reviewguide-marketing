@@ -836,80 +836,183 @@ header.nav {
   position: relative;
 }
 
-/* ---------- footer ---------- */
-footer {
+/* ---------- footer ----------
+   Diverges from design-reference/index.html's single centred row: see that folder's README.
+   Every text colour here is --ink-soft or darker (7.5:1 on white) — the reference's --muted
+   (3.68:1) fails WCAG AA at these sizes, and this footer carries legally-required data. */
+.site-footer {
   border-top: 1px solid var(--line);
   background: #fff;
-  padding: 40px 0;
+  padding: 56px 0 32px;
 }
 
-.foot-inner {
+.foot-top {
+  display: grid;
+  grid-template-columns: minmax(240px, 1.4fr) 2fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.foot-brand {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 14px;
 }
 
-.foot-links {
-  display: flex;
-  align-items: center;
-  gap: 26px;
-  color: var(--muted);
-  font-weight: 600;
-  font-size: 0.94rem;
-}
-
-.foot-links a:hover {
-  color: var(--ink);
-}
-
-.foot-copy {
-  color: var(--muted);
+.foot-tagline {
+  color: var(--ink-soft);
   font-size: 0.92rem;
+  max-width: 30ch;
 }
 
-/* ---------- footer: legal row (ticket 6.6, part A) ---------- */
-.foot-legal {
+.foot-groups {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+}
+
+.foot-group-title {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--gold-ink);
+  margin-bottom: 14px;
+}
+
+.foot-group ul {
+  list-style: none;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 24px;
+}
+
+.foot-group a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+  font-weight: 600;
+  border-radius: 4px;
+  transition: color 0.15s ease;
+}
+
+.foot-group a:hover {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.foot-mail svg {
+  color: var(--gold-deep);
+  flex-shrink: 0;
+}
+
+/* ---------- footer: bottom bar (company data + cookie settings) ---------- */
+.foot-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 32px;
+  margin-top: 44px;
   padding-top: 24px;
   border-top: 1px solid var(--line);
 }
 
-.foot-legal-links {
+.foot-copy {
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+/* Registration data the law requires on every page: one item per line beats the old single
+   dot-separated run at the smallest size on the page. */
+.foot-company {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px 22px;
-  font-size: 0.86rem;
-  font-weight: 600;
-  color: var(--muted);
+  flex-direction: column;
+  gap: 2px;
+  font-style: normal;
+  font-size: 0.84rem;
+  color: var(--ink-soft);
+  text-align: center;
 }
 
-.foot-legal-links a:hover {
+.foot-company-name {
+  font-weight: 700;
   color: var(--ink);
 }
 
-.foot-legal-link-btn {
+.foot-cookie-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font: inherit;
-  font-size: 0.86rem;
+  font-size: 0.84rem;
   font-weight: 600;
-  color: var(--muted);
-  background: none;
-  border: none;
-  padding: 0;
+  color: var(--ink-soft);
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 15px;
   cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease;
 }
 
-.foot-legal-link-btn:hover {
+.foot-cookie-btn:hover {
   color: var(--ink);
+  background: var(--cream-2);
 }
 
-.foot-legal-company {
-  font-size: 0.82rem;
-  color: var(--muted);
+.site-footer a:focus-visible,
+.foot-cookie-btn:focus-visible {
+  outline: 2px solid var(--gold-deep);
+  outline-offset: 3px;
+}
+
+/* Once the brand stops sharing a row with the groups, the groups pack snugly to the left rather
+   than stretching into thirds of a full-width row — three 1fr tracks at tablet width leave most
+   of the row empty and orphan the third group onto its own line. */
+@media (max-width: 860px) {
+  .foot-top {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .foot-groups {
+    grid-template-columns: repeat(3, minmax(0, max-content));
+    gap: 28px 44px;
+  }
+}
+
+@media (max-width: 560px) {
+  .site-footer {
+    padding: 40px 0 28px;
+  }
+
+  .foot-groups {
+    grid-template-columns: repeat(2, minmax(0, max-content));
+    gap: 26px 36px;
+  }
+
+  .foot-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 32px;
+  }
+
+  .foot-company {
+    text-align: left;
+  }
+}
+
+@media (max-width: 410px) {
+  .foot-groups {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ---------- legal document pages (ticket 6.6, part A) ---------- */
@@ -919,13 +1022,16 @@ footer {
   margin: 0 auto;
 }
 
+/* The chrome around the document body uses --ink-soft rather than --muted for the same reason the
+   footer does: --muted is 3.68:1 on white, under WCAG AA, and these are legal pages. The body
+   itself (.legal-doc) was already --ink-soft. */
 .legal-breadcrumb {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   font-size: 0.88rem;
   font-weight: 600;
-  color: var(--muted);
+  color: var(--ink-soft);
   margin-bottom: 20px;
 }
 
@@ -960,7 +1066,7 @@ footer {
 .legal-translation-note {
   font-size: 0.9rem;
   font-style: italic;
-  color: var(--muted);
+  color: var(--ink-soft);
   margin-bottom: 36px;
 }
 
@@ -982,7 +1088,7 @@ footer {
   border-radius: 999px;
   border: none;
   background: none;
-  color: var(--muted);
+  color: var(--ink-soft);
   cursor: pointer;
   transition: background 0.15s, color 0.15s;
 }

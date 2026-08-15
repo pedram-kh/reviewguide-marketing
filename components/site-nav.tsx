@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/logo";
-import { EN_LANDING_ENABLED } from "@/lib/en-landing";
+import { EN_LANDING_ENABLED, landingHref } from "@/lib/en-landing";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.reviewguide.eu";
 
@@ -31,9 +31,11 @@ const COPY = {
 
 /**
  * Ticket 6.6, part E — `lang` defaults to "pl" so the existing landing page (app/page.tsx) needs
- * no changes; app/en/page.tsx is the only caller that passes "en". Section anchor hrefs (#jak
- * etc.) are intentionally left as-is in both languages — app/en/page.tsx mounts the same section
- * ids, just with English copy inside them.
+ * no changes; app/en/page.tsx is the only caller that passes "en".
+ *
+ * Section anchors are prefixed with the landing's own path (lib/en-landing.ts's landingHref)
+ * because this component renders on the seven legal routes too, where bare "#jak" pointed at an
+ * id that doesn't exist there; see that helper for why this doesn't regress the landing itself.
  *
  * The PL→EN switch is hidden while EN_LANDING_ENABLED is off (the English landing page itself
  * 404s until the PM approves its copy — see lib/en-landing.ts), so no visitor lands on a dead
@@ -45,14 +47,15 @@ export function SiteNav({ lang = "pl" }: { lang?: Lang }) {
   const copy = COPY[lang];
   const showLangSwitch = lang === "en" || EN_LANDING_ENABLED;
   const otherLang = lang === "pl" ? "/en" : "/";
+  const home = landingHref(lang);
 
   return (
     <header className="nav">
       <div className="wrap nav-inner">
-        <Logo />
+        <Logo href={`${home}#top`} />
         <nav className="nav-links">
           {copy.links.map((link) => (
-            <a key={link.href} href={link.href}>
+            <a key={link.href} href={`${home}${link.href}`}>
               {link.label}
             </a>
           ))}
