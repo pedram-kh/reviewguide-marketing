@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { DpaContent } from "@/components/dpa-content";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteNav } from "@/components/site-nav";
 import { loadLegalDoc } from "@/lib/legal";
 
 const plDoc = loadLegalDoc("pl", "4-umowa-powierzenia-dpa");
@@ -13,19 +11,9 @@ export const metadata: Metadata = {
     "Umowa powierzenia przetwarzania danych osobowych (DPA) / Data Processing Agreement — Załącznik nr 2 do Regulaminu ReviewGuide.",
 };
 
+// <DpaContent> owns the whole page shell (nav/breadcrumb/document/footer) so its language toggle
+// switches all of it together — see that component's doc comment for why this isn't split the
+// way the other six legal routes are (SiteNav/SiteFooter rendered here, LegalPage in between).
 export default function DpaPage() {
-  return (
-    <>
-      <SiteNav />
-      <main>
-        <div className="wrap legal-page">
-          <div className="legal-breadcrumb">
-            <a href="/">← Strona główna</a>
-          </div>
-          <DpaContent pl={plDoc} en={enDoc} />
-        </div>
-      </main>
-      <SiteFooter />
-    </>
-  );
+  return <DpaContent pl={plDoc} en={enDoc} />;
 }

@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { SetHtmlLang } from "@/components/set-html-lang";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
 import { EN_LANDING_ENABLED } from "@/lib/en-landing";
@@ -28,6 +29,7 @@ export function LegalPage({ doc, altLanguage, lang = "pl", children }: LegalPage
 
   return (
     <>
+      <SetHtmlLang lang={lang} />
       <SiteNav lang={lang} />
       <main>
         <div className="wrap legal-page">
