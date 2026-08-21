@@ -14,8 +14,8 @@ type Lang = "pl" | "en";
 const COPY = {
   pl: {
     eyebrow: "Automatyczne odpowiedzi na opinie",
-    h1: "Każda negatywna opinia na Google dostaje profesjonalną odpowiedź, zanim zdążysz się zdenerwować.",
-    lead: "ReviewGuide sprawdza opinie Twojej restauracji na Google co 2 godziny i w ciągu maksymalnie 2 godzin przygotowuje gotową odpowiedź — spokojną, konkretną i bez szablonowego tonu.",
+    h1: "Każda negatywna opinia na Google dostaje profesjonalną odpowiedź.",
+    lead: "ReviewGuide sprawdza opinie Twojej restauracji na Google co 2 godziny i przygotowuje gotową odpowiedź — spokojną, konkretną i bez szablonowego tonu.",
     ctaPrimary: "Wypróbuj za darmo",
     ctaSecondary: "Zobacz, jak to działa",
     trust: "Każda opinia dostaje odpowiedź — zanim zdążysz ją przeczytać.",
@@ -30,8 +30,8 @@ const COPY = {
   },
   en: {
     eyebrow: "Automatic responses to reviews",
-    h1: "Every negative Google review gets a professional response, before you have time to get upset.",
-    lead: "ReviewGuide checks your restaurant's Google reviews every 2 hours and prepares a ready response within a maximum of 2 hours — calm, specific, and never generic.",
+    h1: "Every negative Google review gets a professional response.",
+    lead: "ReviewGuide checks your restaurant's Google reviews every 2 hours and prepares a ready response — calm, specific, and never generic.",
     ctaPrimary: "Try for free",
     ctaSecondary: "See how it works",
     trust: "Every review gets a response — before you even finish reading it.",

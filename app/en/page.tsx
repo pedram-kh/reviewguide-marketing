@@ -14,8 +14,9 @@ import { EN_LANDING_ENABLED } from "@/lib/en-landing";
 
 const SITE_URL = "https://reviewguide.eu";
 const TITLE = "ReviewGuide — a professional response to every Google review";
+// Ticket 6.14 — EN mirror of the PL meta-description sweep fix in app/layout.tsx.
 const DESCRIPTION =
-  "ReviewGuide checks your restaurant's Google reviews every 2 hours and prepares a calm, specific response — before you even have time to get upset.";
+  "ReviewGuide checks your restaurant's Google reviews every 2 hours and prepares a calm, specific response.";
 
 export const metadata: Metadata = {
   title: TITLE,

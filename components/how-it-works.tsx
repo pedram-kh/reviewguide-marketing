@@ -11,15 +11,15 @@ const ICONS = [
 const COPY = {
   pl: {
     eyebrow: "Jak to działa",
-    h2: "Trzy kroki, zero pilnowania.",
+    h2: "Trzy kroki, bez Twojego wysiłku.",
     steps: [
       {
         title: "Wykrywamy",
-        body: "ReviewGuide sprawdza opinie Twojej restauracji na Google co 2 godziny i wyłapuje te, które wymagają odpowiedzi — zwłaszcza te z niską oceną i bez reakcji właściciela.",
+        body: "ReviewGuide sprawdza opinie Twojej restauracji na Google co 2 godziny i wyłapuje te, które wymagają odpowiedzi — zwłaszcza te z niską oceną.",
       },
       {
         title: "Piszemy odpowiedź",
-        body: "AI przygotowuje spokojną, konkretną odpowiedź dopasowaną do treści opinii — w języku, w którym została napisana, bez szablonowego tonu.",
+        body: "ReviewGuide przygotowuje spokojną, konkretną odpowiedź dopasowaną do treści opinii — w języku, w którym została napisana.",
       },
       {
         title: "Ty akceptujesz i wysyłasz",
@@ -29,15 +29,15 @@ const COPY = {
   },
   en: {
     eyebrow: "How it works",
-    h2: "Three steps, zero babysitting.",
+    h2: "Three steps, no effort on your part.",
     steps: [
       {
         title: "We detect",
-        body: "ReviewGuide checks your restaurant's Google reviews every 2 hours and catches the ones that need a response — especially low ratings with no reply from the owner.",
+        body: "ReviewGuide checks your restaurant's Google reviews every 2 hours and catches the ones that need a response — especially low ratings.",
       },
       {
         title: "We write the response",
-        body: "AI prepares a calm, specific response tailored to the review — in the language it was written in, never generic.",
+        body: "ReviewGuide prepares a calm, specific response tailored to the review — in the language it was written in.",
       },
       {
         title: "You approve and send",

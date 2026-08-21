@@ -89,6 +89,33 @@ left showing the old mark unchanged, per this file's own "keep the reference pri
 Full inventory, the source-quality gate (dimensions/transparency), and the 16px/32px legibility
 check are in `docs/PROGRESS.md`'s 6.7 row (backend repo).
 
+### Landing copy revisions (ticket 6.14, Partner feedback 17.08)
+
+`index.html` still carries the original hero headline/sub-lead, how-it-works heading/step-1/
+step-2 bodies, the "Zobacz sam" caption, and the footer tagline — all seven pre-6.14 strings —
+plus the original meta description. The live site now reads:
+
+| Section | `index.html` (pristine) | Live site (ticket 6.14) |
+|---|---|---|
+| Hero `<h1>` | "Każda negatywna opinia na Google dostaje profesjonalną odpowiedź, zanim zdążysz się zdenerwować." | "Każda negatywna opinia na Google dostaje profesjonalną odpowiedź." |
+| Hero lead | "...i w ciągu maksymalnie 2 godzin przygotowuje gotową odpowiedź..." | "...i przygotowuje gotową odpowiedź..." (no "w ciągu maksymalnie 2 godzin") |
+| How-it-works `<h2>` | "Trzy kroki, zero pilnowania." | "Trzy kroki, bez Twojego wysiłku." |
+| Step 1 body | "...zwłaszcza te z niską oceną i bez reakcji właściciela." | "...zwłaszcza te z niską oceną." |
+| Step 2 body | "AI przygotowuje..." | "ReviewGuide przygotowuje..." (also drops "bez szablonowego tonu") |
+| Examples caption | "Dwie autentyczne pary opinia → odpowiedź wygenerowane przez ReviewGuide (nazwa i adres restauracji ukryta)." | "Przykładowe opinie i odpowiedzi przez ReviewGuide." |
+| Footer tagline | "Każda opinia w Google dostaje spokojną, konkretną odpowiedź — zanim zdążysz się zdenerwować." | "Każda negatywna opinia na Google dostaje profesjonalną odpowiedź." |
+| Meta description (`<meta name="description">`, mirrored in OG/Twitter) | "...przygotowuje spokojną, konkretną odpowiedź — zanim zdążysz się zdenerwować." | "...przygotowuje spokojną, konkretną odpowiedź." (sweep item — not one of the ticket's 7 named strings, but same removed phrase) |
+
+Reason: Stakeholder+PM decision, Partner feedback 2026-08-17 — retiring the "zanim zdążysz się
+zdenerwować" (before you get upset) framing and the "w ciągu maksymalnie 2 godzin" timing clause
+from all customer-facing marketing voice. The backend's real 2-hour operational promise
+(`docs/LOGIC.md` §8a) and every transactional email template are unaffected — this is a marketing
+copy change only. `/en` mirrors all eight edits with faithful English equivalents (see the ticket
+6.14 delivery report / `docs/sprints/SPRINT_06.md` for the exact EN strings).
+
+`index.html` is left showing the old copy unchanged, per this file's own "keep the reference
+pristine" convention.
+
 ## Non-divergences worth noting
 
 `og-image.png` (in `public/`, not here) was re-themed in ticket 6.5a to match this reference's

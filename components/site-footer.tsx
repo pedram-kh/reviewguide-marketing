@@ -7,7 +7,7 @@ type Lang = "pl" | "en";
 
 const COPY = {
   pl: {
-    tagline: "Każda opinia w Google dostaje spokojną, konkretną odpowiedź — zanim zdążysz się zdenerwować.",
+    tagline: "Każda negatywna opinia na Google dostaje profesjonalną odpowiedź.",
     navLabel: "Stopka",
     productTitle: "Produkt",
     contactTitle: "Kontakt",
@@ -27,7 +27,7 @@ const COPY = {
     companyLabel: "Dane rejestrowe",
   },
   en: {
-    tagline: "Every Google review gets a calm, specific response — before you have time to get upset.",
+    tagline: "Every negative Google review gets a professional response.",
     navLabel: "Footer",
     productTitle: "Product",
     contactTitle: "Contact",

@@ -19,8 +19,11 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 const SITE_URL = "https://reviewguide.eu";
 // Ticket 6.5: title/description ported verbatim from the Stakeholder's design-reference/index.html.
 const TITLE = "ReviewGuide — profesjonalna odpowiedź na każdą opinię Google";
+// Ticket 6.14 — dropped the "zanim zdążysz się zdenerwować" tail (sweep item, not one of the
+// ticket's 7 named strings) so this meta description matches the new hero/footer voice instead
+// of contradicting it once a search result or share-card sits next to the redone copy.
 const DESCRIPTION =
-  "ReviewGuide sprawdza opinie Twojej restauracji na Google co 2 godziny i przygotowuje spokojną, konkretną odpowiedź — zanim zdążysz się zdenerwować.";
+  "ReviewGuide sprawdza opinie Twojej restauracji na Google co 2 godziny i przygotowuje spokojną, konkretną odpowiedź.";
 
 // Ticket 6.6b — `viewport-fit=cover` is required for `env(safe-area-inset-*)` (globals.css's
 // `.wrap`) to resolve to anything but 0 on iOS Safari; without it the page always renders inside
